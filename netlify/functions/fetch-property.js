@@ -7,7 +7,7 @@ const http = require('http');
 
 exports.handler = async function(event) {
   const headers = {
-    'Access-Control-Allow-Origin': 'https://investmentbrochure.netlify.app',
+    'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Content-Type': 'application/json'
@@ -40,12 +40,26 @@ exports.handler = async function(event) {
 
   try {
     const html = await fetchPage(targetUrl);
+    
+    // Return raw debug info if ?debug=1
+    if (event.queryStringParameters && event.queryStringParameters.debug) {
+      return {
+        statusCode: 200,
+        headers: { ...headers, 'Content-Type': 'text/plain' },
+        body: 'STATUS: OK\nHTML LENGTH: ' + html.length + '\nFIRST 2000 CHARS:\n' + html.substring(0, 2000)
+      };
+    }
+
     let prop;
     if (isStreet) {
       prop = parseStreet(html, targetUrl);
     } else {
       prop = parseRightmove(html, targetUrl);
     }
+
+    // Add debug metadata
+    prop._debug = { htmlLength: html.length, url: targetUrl };
+
     return {
       statusCode: 200,
       headers,
@@ -55,7 +69,11 @@ exports.handler = async function(event) {
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ error: err.message || 'Failed to fetch property page' })
+      body: JSON.stringify({ 
+        error: err.message || 'Failed to fetch property page',
+        stack: err.stack ? err.stack.substring(0, 300) : null,
+        url: targetUrl
+      })
     };
   }
 };
