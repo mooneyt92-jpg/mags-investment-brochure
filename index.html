@@ -656,7 +656,7 @@ footer{background:var(--dark);padding:34px 80px;display:flex;justify-content:spa
     <div class="u-manual-grid">
       <div class="u-mf full"><label>Full property address *</label><input id="m-address" type="text" placeholder="e.g. Ling Street, Liverpool, L7" oninput="checkManual()"></div>
       <div class="u-mf"><label>Bedrooms</label><input id="m-beds" type="number" min="0" max="20" placeholder="3"></div>
-      <div class="u-mf"><label>Property type</label><select id="m-type"><option>Mid-terrace</option><option>Semi-detached</option><option>Detached</option><option>Terraced</option><option>Flat / Apartment</option><option>Bungalow</option><option>HMO</option></select></div>
+      <div class="u-mf"><label>Property type</label><select id="m-type"><option>Mid-terrace</option><option>End-terrace</option><option>Semi-detached</option><option>Detached</option><option>Terraced</option><option>Flat / Apartment</option><option>Bungalow</option><option>HMO</option><option>Commercial</option><option>Land</option><option>Other</option></select></div>
       <div class="u-mf"><label>Size (sq ft)</label><input id="m-sqft" type="number" placeholder="974"></div>
       <div class="u-mf"><label>Bathrooms</label><input id="m-baths" type="number" placeholder="2"></div>
       <div class="u-mf" style="grid-column:1/-1;background:rgba(232,114,42,.06);border-color:rgba(232,114,42,.2)"><label style="color:var(--orange)">Purchase price (£) *</label><input id="m-price" type="number" placeholder="160000" oninput="checkManual()"></div>
@@ -719,15 +719,20 @@ footer{background:var(--dark);padding:34px 80px;display:flex;justify-content:spa
       </div>
       <div class="rev-field">
         <label>Property type</label>
-        <select id="rv-proptype">
+        <select id="rv-proptype" onchange="toggleCustomType(this.value)">
           <option>Mid-terrace</option>
+          <option>End-terrace</option>
           <option>Semi-detached</option>
           <option>Detached</option>
           <option>Terraced</option>
           <option>Flat / Apartment</option>
           <option>Bungalow</option>
           <option>HMO</option>
+          <option>Commercial</option>
+          <option>Land</option>
+          <option>Other</option>
         </select>
+        <input type="text" id="rv-proptype-custom" placeholder="Describe property type..." style="display:none;margin-top:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px 14px;font-size:14px;color:white;font-family:var(--fb);width:100%;outline:none">
       </div>
       <div class="rev-field">
         <label>Size (sq ft)</label>
@@ -801,7 +806,24 @@ footer{background:var(--dark);padding:34px 80px;display:flex;justify-content:spa
       </div>
     </div>
 
-    <div class="rev-actions">
+      <div class="rev-section-label">End value & growth</div>
+
+      <div class="rev-field">
+        <label>End value / GDV (£)</label>
+        <input type="number" id="rv-gdv" placeholder="e.g. 180000" oninput="updateTotalCost()">
+      </div>
+      <div class="rev-field" style="background:rgba(29,158,117,.06);border-color:rgba(29,158,117,.2)">
+        <label style="color:#1D9E75">Uplift / equity gain (£)</label>
+        <input type="number" id="rv-uplift" placeholder="Auto-calculated" readonly style="color:#1D9E75;font-weight:600">
+      </div>
+      <div class="rev-field">
+        <label>Post-refurb rental estimate (£/mo)</label>
+        <input type="number" id="rv-post-rent" placeholder="e.g. 1400">
+      </div>
+      <div class="rev-field">
+        <label>Notes / deal summary</label>
+        <input type="text" id="rv-notes" placeholder="e.g. Tenant in situ, new boiler fitted, EPC C">
+      </div>
       <button class="rev-back" onclick="resetToUpload()">← Start over</button>
       <button class="rev-go" onclick="confirmAndBuild()">Generate Investor Page →</button>
       <span class="rev-note">You can still edit after generating</span>
@@ -936,6 +958,23 @@ footer{background:var(--dark);padding:34px 80px;display:flex;justify-content:spa
       <div>
         <div class="roi-big" id="roi-big">—</div>
         <div class="roi-bigl">Cash-on-cash ROI</div>
+      </div>
+    </div>
+    <!-- GDV / End Value (only shown if entered) -->
+    <div id="gdv-section" style="display:none;margin-top:18px;background:rgba(29,158,117,.08);border:1px solid rgba(29,158,117,.2);border-radius:14px;padding:18px 20px">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(29,158,117,.6);margin-bottom:12px">End value &amp; growth potential</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
+        <div><div style="font-size:11px;color:var(--muted);margin-bottom:4px">Purchase price</div><div style="font-size:16px;font-weight:600;color:var(--dark)" id="gdv-purchase">—</div></div>
+        <div><div style="font-size:11px;color:var(--muted);margin-bottom:4px">Refurbishment</div><div style="font-size:16px;font-weight:600;color:var(--dark)" id="gdv-refurb">—</div></div>
+        <div><div style="font-size:11px;color:var(--muted);margin-bottom:4px">End value / GDV</div><div style="font-size:16px;font-weight:600;color:#1D9E75" id="gdv-val">—</div></div>
+      </div>
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(29,158,117,.15);display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:13px;color:var(--muted)">Equity uplift on completion</div>
+        <div style="font-family:var(--fd);font-size:24px;color:#1D9E75" id="gdv-uplift">—</div>
+      </div>
+      <div id="gdv-post-rent-row" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid rgba(29,158,117,.15);display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:13px;color:var(--muted)">Post-refurb rental estimate</div>
+        <div style="font-size:16px;font-weight:600;color:#1D9E75" id="gdv-post-rent">—</div>
       </div>
     </div>
   </div>
@@ -1748,6 +1787,7 @@ function showReviewScreen(source){
   const typeEl=document.getElementById('rv-proptype');
   const pt=(d.propertyType||'').toLowerCase();
   if(/mid.?terrace/i.test(pt)) typeEl.value='Mid-terrace';
+  else if(/end.?terrace/i.test(pt)) typeEl.value='End-terrace';
   else if(/semi/i.test(pt)) typeEl.value='Semi-detached';
   else if(/detach/i.test(pt)) typeEl.value='Detached';
   else if(/flat|apartment/i.test(pt)) typeEl.value='Flat / Apartment';
@@ -1763,6 +1803,11 @@ function showReviewScreen(source){
 
   document.getElementById('review-screen').style.display='block';
   window.scrollTo(0,0);
+}
+
+function toggleCustomType(val){
+  const el = document.getElementById('rv-proptype-custom');
+  if(el) el.style.display = val === 'Other' ? 'block' : 'none';
 }
 
 function setRV(id, val){ const el=document.getElementById(id); if(el&&val!==''&&val!==null&&val!==undefined) el.value=val; }
@@ -1786,7 +1831,9 @@ function confirmAndBuild(){
   d.findersFee = getNum('rv-finders',null);
   d.refurb = getNum('rv-refurb',0)||0;
   d.other = getNum('rv-other',null);
-  d.isCashBuyer = _reviewIsCash;
+  d.gdv = getNum('rv-gdv', null);
+  d.postRent = getNum('rv-post-rent', null);
+  d.notes = (document.getElementById('rv-notes')||{}).value || '';
   d.depositPct = _reviewIsCash ? 100 : (getNum('rv-deposit-pct',null)||25);
   d.mortgageRate = _reviewIsCash ? 0 : (getNum('rv-mrate',null)||5);
 
@@ -1813,8 +1860,10 @@ function confirmAndBuild(){
     if(!d.roi) d.roi = netProfit/d.cashPaid*100;
   }
 
-  const typeVal=document.getElementById('rv-proptype').value;
-  d.propertyType = (d.bedrooms>0?d.bedrooms+' Bed ':'')+typeVal;
+  const typeVal = document.getElementById('rv-proptype').value;
+  const customType = (document.getElementById('rv-proptype-custom')||{}).value || '';
+  const finalType = (typeVal === 'Other' && customType.trim()) ? customType.trim() : typeVal;
+  d.propertyType = (d.bedrooms>0?d.bedrooms+' Bed ':'')+finalType;
 
   // Sync calculator to buyer type — after output screen shown
   document.getElementById('review-screen').style.display='none';
@@ -2041,6 +2090,24 @@ function buildPage(){
   document.getElementById('roi-desc').textContent=fmt(netProfit)+' net profit on '+fmt(cashPaid)+' deployed';
   document.getElementById('roi-big').textContent=roi.toFixed(2)+'%';
 
+  // GDV / End value section
+  if(d.gdv && d.gdv > 0){
+    const gdvSec = document.getElementById('gdv-section');
+    if(gdvSec){
+      gdvSec.style.display='block';
+      document.getElementById('gdv-purchase').textContent=fmt(price);
+      document.getElementById('gdv-refurb').textContent=fmt(refurb);
+      document.getElementById('gdv-val').textContent=fmt(d.gdv);
+      document.getElementById('gdv-uplift').textContent=fmt(d.gdv - price - refurb);
+      if(d.postRent){
+        const prRow = document.getElementById('gdv-post-rent-row');
+        if(prRow){ prRow.style.display='flex'; }
+        const prEl = document.getElementById('gdv-post-rent');
+        if(prEl) prEl.textContent=fmt(d.postRent)+'/mo';
+      }
+    }
+  }
+
   // Calculator defaults
   document.getElementById('c-rent').value=rent;
   document.getElementById('c-rent').min=Math.max(300,rent-600);
@@ -2220,6 +2287,14 @@ function updateTotalCost(){
   const totalCost = deposit + sdlt + legal + finders + refurb + other;
   const tcEl = document.getElementById('rv-totalcost');
   if(tcEl) tcEl.value = totalCost > 0 ? Math.round(totalCost) : '';
+  // Auto-calc uplift
+  const gdv = parseFloat((document.getElementById('rv-gdv')||{}).value)||0;
+  const upliftEl = document.getElementById('rv-uplift');
+  if(upliftEl && gdv > 0 && price > 0){
+    upliftEl.value = Math.round(gdv - price - refurb);
+  } else if(upliftEl) {
+    upliftEl.value = '';
+  }
 }
 
 // ── MODAL ──
