@@ -1766,7 +1766,7 @@ function showReviewScreen(source){
 }
 
 function setRV(id, val){ const el=document.getElementById(id); if(el&&val!==''&&val!==null&&val!==undefined) el.value=val; }
-function warnIf(id, condition){ if(condition) document.getElementById(id).classList.add('warn'); }
+function warnIf(id, condition){ const el=document.getElementById(id); if(condition && el) el.classList.add('warn'); }
 
 function confirmAndBuild(){
   const d=dealData;
