@@ -1769,24 +1769,55 @@ function setRV(id, val){ const el=document.getElementById(id); if(el&&val!==''&&
 function warnIf(id, condition){ if(condition) document.getElementById(id).classList.add('warn'); }
 
 function confirmAndBuild(){
-  // Read back from review fields into dealData
   const d=dealData;
-  d.address = document.getElementById('rv-address').value || d.address;
-  d.bedrooms = parseFloat(document.getElementById('rv-bedrooms').value)||0;
-  d.sqft = parseFloat(document.getElementById('rv-sqft').value)||d.sqft;
-  d.bathrooms = parseFloat(document.getElementById('rv-bathrooms').value)||d.bathrooms;
-  d.price = parseFloat(document.getElementById('rv-price').value)||d.price||160000;
-  d.monthlyRent = parseFloat(document.getElementById('rv-rent').value)||d.monthlyRent||1350;
+  const getRV = id => { const el=document.getElementById(id); return el ? el.value : ''; };
+  const getNum = (id,fb) => parseFloat(getRV(id))||fb||null;
+
+  d.address = getRV('rv-address') || d.address;
+  d.bedrooms = getNum('rv-bedrooms',0);
+  d.sqft = getNum('rv-sqft',null)||d.sqft;
+  d.bathrooms = getNum('rv-bathrooms',null)||d.bathrooms;
+  d.price = getNum('rv-price',null)||d.price||160000;
+  d.monthlyRent = getNum('rv-rent',null)||d.monthlyRent||1350;
   d.yearlyRent = d.monthlyRent*12;
-  d.grossReturn = parseFloat(document.getElementById('rv-gross').value)||null;
-  d.netReturn = parseFloat(document.getElementById('rv-netret').value)||null;
-  d.roi = parseFloat(document.getElementById('rv-roi').value)||null;
-  d.netProfit = parseFloat(document.getElementById('rv-netprofit').value)||null;
-  d.cashPaid = parseFloat(document.getElementById('rv-cash').value)||null;
-  d.mortgageRate = parseFloat(document.getElementById('rv-mrate').value)||5;
+  d.grossReturn = getNum('rv-gross',null);
+  d.sdlt = getNum('rv-sdlt',null);
+  d.legal = getNum('rv-legal',null);
+  d.findersFee = getNum('rv-finders',null);
+  d.refurb = getNum('rv-refurb',0)||0;
+  d.other = getNum('rv-other',null);
+  d.isCashBuyer = _reviewIsCash;
+  d.depositPct = _reviewIsCash ? 100 : (getNum('rv-deposit-pct',null)||25);
+  d.mortgageRate = _reviewIsCash ? 0 : (getNum('rv-mrate',null)||5);
+
+  // Auto-calculate totals
+  const deposit = _reviewIsCash ? d.price : d.price*(d.depositPct/100);
+  const acqCosts = (d.sdlt||0)+(d.legal||0)+(d.findersFee||0)+(d.refurb||0)+(d.other||0);
+  d.totalCost = deposit + acqCosts;
+  d.cashPaid = d.totalCost;
+  d.loan = _reviewIsCash ? 0 : d.price*(1-d.depositPct/100);
+  d.deposit = deposit;
+
+  // Auto-calculate financials if not entered
+  if(d.price && d.monthlyRent){
+    const yRent = d.monthlyRent*12;
+    const mgmt = yRent*0.12;
+    const expenses = yRent*0.15;
+    const netInc = yRent-mgmt-expenses;
+    const mInt = _reviewIsCash ? 0 : d.loan*(d.mortgageRate/100);
+    const netProfit = netInc-mInt;
+    const cash = d.cashPaid||d.price;
+    if(!d.grossReturn) d.grossReturn = yRent/d.price*100;
+    if(!d.netProfit) d.netProfit = netProfit;
+    if(!d.cashPaid || d.cashPaid===0) d.cashPaid = cash;
+    if(!d.roi) d.roi = netProfit/d.cashPaid*100;
+  }
 
   const typeVal=document.getElementById('rv-proptype').value;
   d.propertyType = (d.bedrooms>0?d.bedrooms+' Bed ':'')+typeVal;
+
+  // Sync calculator to buyer type
+  setCalcBuyerType(_reviewIsCash ? 'cash' : 'mortgage');
 
   document.getElementById('review-screen').style.display='none';
   buildPage();
