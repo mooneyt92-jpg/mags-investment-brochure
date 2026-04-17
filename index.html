@@ -1820,7 +1820,14 @@ function confirmAndBuild(){
   setCalcBuyerType(_reviewIsCash ? 'cash' : 'mortgage');
 
   document.getElementById('review-screen').style.display='none';
-  buildPage();
+  try {
+    buildPage();
+  } catch(err) {
+    console.error('buildPage error:', err);
+    showToast('⚠ Error building page: ' + err.message, 'error', 6000);
+    document.getElementById('review-screen').style.display='block';
+    return;
+  }
   document.getElementById('output-screen').style.display='block';
   window.scrollTo(0,0);
 }
@@ -2001,7 +2008,7 @@ function buildPage(){
   document.getElementById('hc-net').textContent=fmt(netProfit)+'/yr';
   document.getElementById('hc-cash').textContent=fmt(cashPaid);
   document.getElementById('hc-type').textContent=d.propertyType||'—';
-  document.getElementById('h-fbadge').textContent=d.features.some(f=>/tenant/i.test(f.name))?'Tenant in situ':'Investment Deal';
+  document.getElementById('h-fbadge').textContent=(d.features||[]).some(f=>/tenant/i.test(f.name))?'Tenant in situ':'Investment Deal';
   document.getElementById('map-label').textContent=addr.split(',')[0]||addr;
   document.getElementById('modal-deal-label').textContent=addr+' · '+fmt(price);
   document.getElementById('cta-h').innerHTML='Ready to secure<br>this deal?';
@@ -2049,7 +2056,7 @@ function buildPage(){
   const fl=document.getElementById('features-list');
   fl.innerHTML='';
   const icons=['<path d="M3 10L10 3L17 10V17H12V12H8V17H3V10Z"/>','<path d="M2 17V9l8-6 8 6v8M7 17v-5h6v5"/>','<rect x="2" y="10" width="16" height="2"/><path d="M4 10V7a2 2 0 014 0v3M12 10V7a2 2 0 014 0v3"/>','<path d="M3 3h14v14H3zM3 8h14M8 8v9"/>','<circle cx="10" cy="8" r="4"/><path d="M6 18c0-3.31 1.79-6 4-6s4 2.69 4 6"/>','<path d="M3 8h16M3 12h16M3 16h8"/>','<path d="M10 2C5.58 2 2 5.58 2 10s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8z"/>'];
-  (d.features.length?d.features:[{name:'Freehold',sub:'Full ownership'},{name:d.bedrooms+' bedrooms',sub:'Residential'},{name:'Tenant in situ',sub:'Day-one income'},{name:(d.sqft||974)+' sq ft',sub:'Total area'}]).forEach((f,i)=>{
+  (( d.features&&d.features.length)?d.features:[{name:'Freehold',sub:'Full ownership'},{name:d.bedrooms+' bedrooms',sub:'Residential'},{name:'Tenant in situ',sub:'Day-one income'},{name:(d.sqft||974)+' sq ft',sub:'Total area'}]).forEach((f,i)=>{
     fl.innerHTML+=`<div class="fchip"><div class="fi"><svg viewBox="0 0 20 20">${icons[i%icons.length]}</svg></div><div><div class="fn">${f.name}</div><div class="fs">${f.sub||''}</div></div></div>`;
   });
 
