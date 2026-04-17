@@ -1816,19 +1816,18 @@ function confirmAndBuild(){
   const typeVal=document.getElementById('rv-proptype').value;
   d.propertyType = (d.bedrooms>0?d.bedrooms+' Bed ':'')+typeVal;
 
-  // Sync calculator to buyer type
-  setCalcBuyerType(_reviewIsCash ? 'cash' : 'mortgage');
-
+  // Sync calculator to buyer type — after output screen shown
   document.getElementById('review-screen').style.display='none';
   try {
     buildPage();
   } catch(err) {
     console.error('buildPage error:', err);
-    showToast('⚠ Error building page: ' + err.message, 'error', 6000);
+    showToast('⚠ Error: ' + err.message, 'error', 6000);
     document.getElementById('review-screen').style.display='block';
     return;
   }
   document.getElementById('output-screen').style.display='block';
+  setCalcBuyerType(_reviewIsCash ? 'cash' : 'mortgage');
   window.scrollTo(0,0);
 }
 
@@ -2132,12 +2131,12 @@ function setCalcBuyerType(type){
   const btnC = document.getElementById('calc-btn-cash');
   if(_calcIsCash){
     if(mWrap) mWrap.style.display='none';
-    btnM.style.background='transparent'; btnM.style.color='rgba(255,255,255,.4)'; btnM.style.borderColor='rgba(255,255,255,.15)';
-    btnC.style.background='var(--orange)'; btnC.style.color='white'; btnC.style.borderColor='var(--orange)';
+    if(btnM){ btnM.style.background='transparent'; btnM.style.color='rgba(255,255,255,.4)'; btnM.style.borderColor='rgba(255,255,255,.15)'; }
+    if(btnC){ btnC.style.background='var(--orange)'; btnC.style.color='white'; btnC.style.borderColor='var(--orange)'; }
   } else {
     if(mWrap) mWrap.style.display='contents';
-    btnC.style.background='transparent'; btnC.style.color='rgba(255,255,255,.4)'; btnC.style.borderColor='rgba(255,255,255,.15)';
-    btnM.style.background='var(--orange)'; btnM.style.color='white'; btnM.style.borderColor='var(--orange)';
+    if(btnC){ btnC.style.background='transparent'; btnC.style.color='rgba(255,255,255,.4)'; btnC.style.borderColor='rgba(255,255,255,.15)'; }
+    if(btnM){ btnM.style.background='var(--orange)'; btnM.style.color='white'; btnM.style.borderColor='var(--orange)'; }
   }
   calcUpdate();
 }
@@ -2195,12 +2194,12 @@ function setBuyerType(type){
   const btnC = document.getElementById('btn-cash');
   if(_reviewIsCash){
     if(mFields){ mFields.querySelectorAll('.rev-field').forEach(f=>f.style.opacity='0.3'); }
-    btnC.style.background='var(--orange)'; btnC.style.borderColor='var(--orange)'; btnC.style.color='white';
-    btnM.style.background='transparent'; btnM.style.borderColor='rgba(255,255,255,.15)'; btnM.style.color='rgba(255,255,255,.5)';
+    if(btnC){ btnC.style.background='var(--orange)'; btnC.style.borderColor='var(--orange)'; btnC.style.color='white'; }
+    if(btnM){ btnM.style.background='transparent'; btnM.style.borderColor='rgba(255,255,255,.15)'; btnM.style.color='rgba(255,255,255,.5)'; }
   } else {
     if(mFields){ mFields.querySelectorAll('.rev-field').forEach(f=>f.style.opacity='1'); }
-    btnM.style.background='var(--orange)'; btnM.style.borderColor='var(--orange)'; btnM.style.color='white';
-    btnC.style.background='transparent'; btnC.style.borderColor='rgba(255,255,255,.15)'; btnC.style.color='rgba(255,255,255,.5)';
+    if(btnM){ btnM.style.background='var(--orange)'; btnM.style.borderColor='var(--orange)'; btnM.style.color='white'; }
+    if(btnC){ btnC.style.background='transparent'; btnC.style.borderColor='rgba(255,255,255,.15)'; btnC.style.color='rgba(255,255,255,.5)'; }
   }
   updateTotalCost();
 }
