@@ -266,16 +266,41 @@ function parseRightmove(html, url) {
 
   if (!prop.photos.length) {
     const allPhotos = new Set();
-    for (const m of html.matchAll(/https:\/\/media\.rightmove\.co\.uk\/[^\s"'<>]+\.jpg/gi)) {
+
+    // Pattern 1: property-photo CDN (the main one seen in the HTML)
+    // e.g. https://media.rightmove.co.uk/property-photo/7ce45b02c/174617249/abc123.jpeg
+    for (const m of html.matchAll(/https:\/\/media\.rightmove\.co\.uk\/property-photo\/[^\s"'<>]+\.(?:jpe?g|png|webp)/gi)) {
+      allPhotos.add(m[0]);
+    }
+
+    // Pattern 2: preload link tags (highest priority photos Rightmove preloads)
+    for (const m of html.matchAll(/rel="preload"[^>]*href="(https:\/\/media\.rightmove\.co\.uk[^"]+\.(?:jpe?g|png))"/gi)) {
+      allPhotos.add(m[1]);
+    }
+
+    // Pattern 3: dir/ pattern (older Rightmove format)
+    for (const m of html.matchAll(/https:\/\/media\.rightmove\.co\.uk\/dir\/[^\s"'<>]+\.(?:jpe?g|png)/gi)) {
       const u = m[0];
-      if (!u.includes('_thumb') && !u.includes('_6_') && !u.includes('_2_') && !u.includes('station')) {
-        allPhotos.add(u.replace(/_\d+x\d+\.jpg$/, '_max_800x600.jpg'));
+      if (!u.includes('_thumb') && !u.includes('agent') && !u.includes('logo') && !u.includes('favicon')) {
+        allPhotos.add(u);
       }
     }
-    // Also try srcUrl pattern
+
+    // Pattern 4: srcUrl in JSON
     for (const m of html.matchAll(/"srcUrl"\s*:\s*"(https:\/\/media\.rightmove\.co\.uk[^"]+)"/gi)) {
       allPhotos.add(m[1]);
     }
+
+    // Pattern 5: generic media.rightmove jpg/jpeg — filter out icons/logos
+    for (const m of html.matchAll(/https:\/\/media\.rightmove\.co\.uk\/[^\s"'<>]+\.(?:jpe?g|png)/gi)) {
+      const u = m[0];
+      if (!u.includes('favicon') && !u.includes('app-icon') && !u.includes('logo') && 
+          !u.includes('assets') && !u.includes('shared-assets') && !u.includes('_thumb') &&
+          !u.includes('agent') && !u.includes('brand')) {
+        allPhotos.add(u);
+      }
+    }
+
     prop.photos = [...allPhotos].slice(0, 12);
   }
 
