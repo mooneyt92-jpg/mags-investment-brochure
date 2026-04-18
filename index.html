@@ -409,45 +409,67 @@ footer{background:var(--dark);padding:34px 80px;display:flex;justify-content:spa
   .mgmt-sec{padding:60px 24px}
 }
 @media(max-width:900px){
-  nav{padding:0 20px;flex-wrap:wrap;gap:8px}
-  .hero{grid-template-columns:1fr;min-height:auto;padding:60px 24px 40px}
+  nav{padding:12px 20px;flex-wrap:wrap;gap:8px}
+  .nav-logo{flex:1;min-width:120px}
+  .nav-r{gap:6px;flex-wrap:wrap;justify-content:flex-end;flex:1}
+  .nav-new,.nav-dl{font-size:11px!important;padding:7px 12px!important}
+  .nav-cta{font-size:12px!important;padding:8px 16px!important}
+  #internal-nav-btns{gap:6px;flex-wrap:wrap}
+  .hero{grid-template-columns:1fr;min-height:auto;padding:50px 24px 36px}
   .h-right{display:none}
   .h-content{padding:0}
-  .sec,.why-sec,.loc-sec,.proc-sec,.cta-sec,.photos-sec,.fin-sec,.calc-sec{padding:60px 24px}
-  footer{padding:28px 24px;flex-direction:column;gap:14px}
+  .h-title{font-size:clamp(30px,7vw,52px)!important}
+  .h-eye{display:none}
+  .hc{grid-template-columns:1fr 1fr}
+  .h-acts{flex-direction:column;gap:10px}
+  .h-acts button,.btn-hp{width:100%!important;justify-content:center!important}
+  .sec,.why-sec,.loc-sec,.proc-sec,.cta-sec,.photos-sec,.fin-sec,.calc-sec{padding:50px 20px}
+  .sec-h{font-size:clamp(24px,5vw,38px)!important}
+  footer{padding:28px 20px;flex-direction:column;gap:14px;text-align:center}
   .fg,.two-t,.calc-sl,.bg,.lg,.prop-g{grid-template-columns:1fr}
   .cg{grid-template-columns:1fr 1fr}
   .cta-in{grid-template-columns:1fr;text-align:center}
+  .cta-ci{align-items:center}
+  .cta-r{align-items:center;width:100%}
+  .cta-r .btn-cw{width:100%;text-align:center}
   .crg{grid-template-columns:1fr 1fr}
   .tc-grid{grid-template-columns:1fr 1fr}
-  .ps{grid-template-columns:1fr 1fr;gap:20px}
+  .ps{grid-template-columns:1fr 1fr;gap:16px}
   .ps::before{display:none}
   .pg{grid-template-columns:1fr 1fr}
   .pi.large{grid-column:span 1;aspect-ratio:4/3}
   .mgmt-hero-right{grid-template-columns:1fr 1fr}
-  .roi-b{flex-direction:column;gap:12px}
-  .roi-big{font-size:52px;text-align:left}
-  .hc{grid-template-columns:1fr 1fr}
-  .h-title{font-size:clamp(32px,8vw,52px)}
+  .mgmt-hero-grid,.mgmt-testimonial,.mgmt-cta-strip,.mgmt-services{grid-template-columns:1fr}
+  .mgmt-sec{padding:50px 20px}
+  .roi-b{flex-direction:column;gap:16px}
+  .roi-big{font-size:56px;text-align:left}
+  .roi-bl{text-align:left}
+  .ft-grid,.two-t{grid-template-columns:1fr!important}
+  .why-grid{grid-template-columns:1fr}
+  .lps{gap:12px}
+  .calc-w{flex-direction:column;gap:20px}
+  .calc-sl,.crg{width:100%}
   .h-btns{flex-direction:column;gap:10px}
   .h-btns button{width:100%;justify-content:center}
-  .why-grid{grid-template-columns:1fr}
-  .cta-sec .btn-cw,.cta-sec .btn-co{width:100%;text-align:center;display:block}
-  .nav-r{gap:6px;flex-wrap:wrap;justify-content:flex-end}
-  .nav-new,.nav-dl{font-size:11px!important;padding:7px 12px!important}
-  .nav-cta{font-size:12px!important;padding:8px 14px!important}
-  #internal-nav-btns{gap:6px}
 }
 @media(max-width:480px){
-  .hc{grid-template-columns:1fr}
+  nav{padding:10px 16px}
+  .hc{grid-template-columns:1fr 1fr}
   .cg{grid-template-columns:1fr}
-  .crg{grid-template-columns:1fr}
+  .crg{grid-template-columns:1fr 1fr}
   .ps{grid-template-columns:1fr}
   .pg{grid-template-columns:1fr}
-  .mgmt-hero-right{grid-template-columns:1fr}
+  .mgmt-hero-right{grid-template-columns:1fr 1fr}
   .mgmt-stat-num{font-size:36px!important}
-  .h-price{font-size:42px!important}
-  nav{gap:6px}
+  .h-price{font-size:40px!important}
+  .h-title{font-size:clamp(26px,8vw,40px)!important}
+  .sec-h{font-size:clamp(22px,6vw,32px)!important}
+  .sec,.why-sec,.loc-sec,.proc-sec,.cta-sec,.photos-sec,.fin-sec,.calc-sec{padding:40px 16px}
+  .roi-big{font-size:44px}
+  .dep-box{border-radius:16px}
+  .dep-header,.dep-body{padding:20px 18px}
+  .bank-fields{grid-template-columns:1fr}
+  .dep-stepper{padding:0 18px}
 }
 .mo-tabs{display:flex;gap:0;margin-bottom:24px;background:var(--cream);border-radius:12px;padding:4px}
 .mo-tab{flex:1;padding:9px;border-radius:9px;font-size:13px;font-weight:500;border:none;cursor:pointer;font-family:var(--fb);color:var(--muted);background:none;transition:all .2s}
@@ -892,7 +914,7 @@ footer{background:var(--dark);padding:34px 80px;display:flex;justify-content:spa
       <button class="nav-dl" onclick="exportPDF()" style="background:var(--orange)">Export PDF</button>
       <button class="nav-dl" id="copy-email-btn" onclick="copyEmailCode()" style="background:#162828;border:1px solid rgba(232,114,42,0.4)">📋 Copy Email Code</button>
     </div>
-    <button class="nav-cta" onclick="openWhatsApp('investor')">Register Interest</button>
+    <button class="nav-cta" onclick="openDepositModal()">Secure This Deal →</button>
   </div>
 </nav>
 
@@ -916,7 +938,7 @@ footer{background:var(--dark);padding:34px 80px;display:flex;justify-content:spa
     </div>
     <div class="h-acts">
       <button class="btn-hp" onclick="openDepositModal()">Secure This Deal <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1 6.5h11M6.5 1l5.5 5.5-5.5 5.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      <button class="btn-hs" onclick="document.getElementById('fin-sec').scrollIntoView({behavior:'smooth'})">View Financials</button>
+      <button class="btn-hs" onclick="document.getElementById('fin-sec').scrollIntoView({behavior:'smooth'})">View the Numbers ↓</button>
     </div>
   </div>
   <div class="h-right">
@@ -1024,31 +1046,36 @@ footer{background:var(--dark);padding:34px 80px;display:flex;justify-content:spa
 <!-- CALCULATOR -->
 <section class="sec calc-sec">
   <div class="sec-in">
-    <div class="sec-lbl"><div class="sec-lbl-line"></div><div class="sec-lbl-t">Scenario Planner</div></div>
-    <h2 class="sec-h">Model your own <em>numbers</em></h2>
-    <p class="sec-d">Adjust the assumptions and see how returns change in real time.</p>
+    <div class="sec-lbl"><div class="sec-lbl-line"></div><div class="sec-lbl-t">Returns Calculator</div></div>
+    <h2 class="sec-h">See your potential <em>returns</em></h2>
+    <p class="sec-d">Adjust the rent and purchase method to model your own scenario.</p>
     <div class="calc-w">
       <div class="calc-sl">
-        <div class="sg"><label>Monthly rent <strong id="c-rent-out">£1,350</strong></label><input type="range" min="600" max="2200" step="25" value="1350" id="c-rent" oninput="calcUpdate()"></div>
+        <div class="sg"><label>Monthly rent <strong id="c-rent-out">£1,350</strong></label><input type="range" min="300" max="5000" step="25" value="1350" id="c-rent" oninput="calcUpdate()"></div>
         <div id="sg-mortgage-wrap" style="display:contents">
           <div class="sg"><label>Mortgage rate <strong id="c-rate-out">5.00%</strong></label><input type="range" min="3" max="9" step="0.25" value="5" id="c-rate" oninput="calcUpdate()"></div>
           <div class="sg"><label>Deposit % <strong id="c-dep-out">25%</strong></label><input type="range" min="15" max="100" step="5" value="25" id="c-dep" oninput="calcUpdate()"></div>
         </div>
         <div class="sg" style="margin-top:8px">
-          <label style="font-size:12px;color:rgba(255,255,255,.4)">Purchase method</label>
-          <div style="display:flex;gap:8px;margin-top:6px">
-            <button id="calc-btn-mortgage" onclick="setCalcBuyerType('mortgage')" style="flex:1;padding:8px;border-radius:8px;border:1.5px solid var(--orange);background:var(--orange);color:white;font-family:var(--fb);font-size:12px;font-weight:600;cursor:pointer">Mortgage</button>
-            <button id="calc-btn-cash" onclick="setCalcBuyerType('cash')" style="flex:1;padding:8px;border-radius:8px;border:1.5px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.4);font-family:var(--fb);font-size:12px;font-weight:600;cursor:pointer">Cash buyer</button>
+          <div style="display:flex;gap:8px">
+            <button id="calc-btn-mortgage" onclick="setCalcBuyerType('mortgage')" style="flex:1;padding:8px;border-radius:8px;border:1.5px solid var(--orange);background:var(--orange);color:white;font-family:var(--fb);font-size:12px;font-weight:600;cursor:pointer">🏦 Mortgage</button>
+            <button id="calc-btn-cash" onclick="setCalcBuyerType('cash')" style="flex:1;padding:8px;border-radius:8px;border:1.5px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.4);font-family:var(--fb);font-size:12px;font-weight:600;cursor:pointer">💰 Cash buyer</button>
           </div>
         </div>
+        <!-- Broker hint -->
+        <div style="margin-top:16px;background:rgba(232,114,42,.08);border:1px solid rgba(232,114,42,.2);border-radius:12px;padding:12px 14px;font-size:12px;color:rgba(255,255,255,.55);line-height:1.6">
+          💬 <strong style="color:rgba(255,255,255,.8)">Need mortgage advice?</strong> We work with an independent broker who can find the right deal for your circumstances — no obligation. Call us on <strong style="color:var(--orange)">0151 452 0151</strong> to find out more.
+        </div>
       </div>
-      <div class="crg">
+      <div class="crg" style="grid-template-columns:1fr 1fr">
         <div class="cr"><div class="cr-l">Gross yield</div><div class="cr-v o" id="cr-gross">—</div><div class="cr-s">On purchase price</div></div>
-        <div class="cr"><div class="cr-l">Net income/yr</div><div class="cr-v g" id="cr-ni">—</div><div class="cr-s">Before mortgage</div></div>
-        <div class="cr"><div class="cr-l">Net profit/yr</div><div class="cr-v" id="cr-np">—</div><div class="cr-s">After interest</div></div>
-        <div class="cr"><div class="cr-l">Cash ROI</div><div class="cr-v o" id="cr-roi">—</div><div class="cr-s">Cash: <span id="cr-cash">—</span></div></div>
+        <div class="cr"><div class="cr-l">Annual net profit</div><div class="cr-v" id="cr-np">—</div><div class="cr-s" id="cr-np-sub">After all costs</div></div>
+        <div class="cr"><div class="cr-l">Cash ROI</div><div class="cr-v o" id="cr-roi">—</div><div class="cr-s">Return on cash in</div></div>
+        <div class="cr"><div class="cr-l">Cash deployed</div><div class="cr-v" id="cr-cash" style="font-size:18px">—</div><div class="cr-s">Total investment</div></div>
       </div>
-      <div class="calc-note"><strong>Note:</strong> Illustrative estimates only. Expenses: management 10%+VAT, void/repairs/other 5% each. Not financial advice.</div>
+      <!-- Hidden elements kept for JS compatibility -->
+      <span id="cr-ni" style="display:none">—</span>
+      <div class="calc-note" style="margin-top:12px"><strong>Note:</strong> Illustrative estimates only. Not financial advice. Actual returns may vary.</div>
     </div>
   </div>
 </section>
@@ -1267,17 +1294,23 @@ footer{background:var(--dark);padding:34px 80px;display:flex;justify-content:spa
   <div class="cta-in">
     <div>
       <div class="cta-h" id="cta-h">Ready to secure<br>this deal?</div>
-      <div class="cta-s">Tenant in situ. Immediate returns. Limited to one buyer.</div>
+      <div class="cta-s">This deal is available to one buyer only — reservation is secured on a first come, first served basis.</div>
+      <div style="margin-top:12px;background:rgba(0,0,0,.15);border-radius:10px;padding:12px 16px;font-size:13px;color:rgba(255,255,255,.7);line-height:1.6">
+        ⚡ <strong style="color:white">Act quickly</strong> — once a reservation deposit is received, this property is immediately withdrawn from all marketing and is no longer available to other buyers.
+      </div>
       <div class="cta-ci">
-        <div class="cta-c"><div class="cta-cico"><svg viewBox="0 0 14 14"><path d="M12.5 9.5l-1.8-1.8a.9.9 0 00-1.27 0l-.54.54A8.1 8.1 0 015.76 4.1l.54-.54a.9.9 0 000-1.27L4.5 0.5A.9.9 0 003.23.5L2 1.73A.9.9 0 002 2.63c1 1 4.16 4.16 7.37 7.37a.9.9 0 00.9 0L11.5 8.77a.9.9 0 001 .73z"/></svg></div><div class="cta-ct"><strong>+44 (0)7923 634812</strong>Call or WhatsApp</div></div>
-        <div class="cta-c"><div class="cta-cico"><svg viewBox="0 0 14 14"><path d="M13 3H1L7 8.5 13 3zM1 4v7h12V4L7 9.5 1 4z"/></svg></div><div class="cta-ct"><strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="38595c5551567855595f4b484a57485d4a4c41165b57164d53">[email&#160;protected]</a></strong>Email us</div></div>
+        <div class="cta-c"><div class="cta-cico"><svg viewBox="0 0 14 14"><path d="M12.5 9.5l-1.8-1.8a.9.9 0 00-1.27 0l-.54.54A8.1 8.1 0 015.76 4.1l.54-.54a.9.9 0 000-1.27L4.5 0.5A.9.9 0 003.23.5L2 1.73A.9.9 0 002 2.63c1 1 4.16 4.16 7.37 7.37a.9.9 0 00.9 0L11.5 8.77a.9.9 0 001 .73z"/></svg></div><div class="cta-ct"><strong>0151 452 0151</strong>Call us directly</div></div>
+        <div class="cta-c"><div class="cta-cico"><svg viewBox="0 0 14 14"><path d="M13 3H1L7 8.5 13 3zM1 4v7h12V4L7 9.5 1 4z"/></svg></div><div class="cta-ct"><strong><a href="mailto:admin@magsproperty.co.uk" style="color:white;text-decoration:none">admin@magsproperty.co.uk</a></strong>Email us</div></div>
         <div class="cta-c"><div class="cta-cico"><svg viewBox="0 0 14 14"><path d="M7 1C4.24 1 2 3.24 2 6c0 3.94 5 7 5 7s5-3.06 5-7c0-2.76-2.24-5-5-5zm0 6.5A1.5 1.5 0 115.5 6 1.5 1.5 0 017 7.5z"/></svg></div><div class="cta-ct"><strong>43 Derby Lane, Liverpool L13 6QA</strong>Our office</div></div>
       </div>
     </div>
     <div class="cta-r">
-      <button class="btn-cw" onclick="openDepositModal()">Secure This Deal →</button>
-      <button class="btn-co" onclick="openWhatsApp('investor')">Register Interest on WhatsApp</button>
-      <div style="font-size:12px;color:rgba(255,255,255,.3);text-align:center;max-width:220px">Finders fees apply. ICO & PRS registered. Not financial advice.</div>
+      <button class="btn-cw" onclick="openDepositModal()" style="font-size:16px;padding:16px 36px">Secure This Deal →</button>
+      <div style="font-size:12px;color:rgba(255,255,255,.5);text-align:center;max-width:240px;line-height:1.7;margin-top:4px">
+        Finders fees apply. ICO &amp; PRS registered. Not financial advice.<br><br>
+        <span style="color:rgba(255,255,255,.75)">💬 Need mortgage advice?</span><br>
+        We have an independent broker who can help — call us on <strong style="color:white">0151 452 0151</strong> to find out more.
+      </div>
     </div>
   </div>
 </section>
@@ -2207,8 +2240,8 @@ function buildPage(){
 
   // Calculator defaults
   document.getElementById('c-rent').value=rent;
-  document.getElementById('c-rent').min=Math.max(300,rent-600);
-  document.getElementById('c-rent').max=rent+800;
+  document.getElementById('c-rent').min=Math.max(300,rent-800);
+  document.getElementById('c-rent').max=Math.min(5000,rent+2000);
   document.getElementById('c-rate').value=mRate;
   document.getElementById('c-dep').value=Math.round(dep/price*100);
   window._calcPrice=price;
@@ -2939,7 +2972,7 @@ body{margin:0!important;padding:0!important;background-color:#efe9e0}
 <tr><td style="background-color:#162828;padding:18px 28px">
 <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>
 <td style="vertical-align:middle"><div style="font-size:13px;font-weight:600;color:#ffffff;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif">Mags Property Investments</div><div style="font-size:11px;color:rgba(255,255,255,0.35);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;margin-top:2px">56 Penny Lane, Liverpool, L18 1DG</div></td>
-<td align="right" style="vertical-align:middle"><div style="font-size:11px;color:rgba(255,255,255,0.35);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif">hello@magsproperty.co.uk</div><div style="font-size:11px;color:rgba(255,255,255,0.35);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;margin-top:2px">magsproperty.co.uk</div></td>
+<td align="right" style="vertical-align:middle"><div style="font-size:11px;color:rgba(255,255,255,0.35);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif">admin@magsproperty.co.uk</div><div style="font-size:11px;color:rgba(255,255,255,0.35);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;margin-top:2px">magsproperty.co.uk</div></td>
 </tr></table>
 </td></tr>
 
@@ -2990,22 +3023,28 @@ function downloadPage(){
   const addr = dealData.address || 'Investment Deal';
   const full=`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Mags Property — ${addr}</title><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"><style>${styles}
 /* MOBILE RESPONSIVE — DEAL PAGE */
-@media(max-width:768px){
-  nav{padding:12px 16px!important;flex-wrap:wrap;gap:8px}
-  .nav-logo{flex:1}
-  .nav-r{flex-wrap:wrap;gap:6px;justify-content:flex-end}
-  .nav-cta{font-size:12px!important;padding:8px 14px!important}
-  .hero{grid-template-columns:1fr!important;min-height:auto!important;padding:40px 20px 30px!important}
-  .h-content{padding:0!important}
-  .h-title{font-size:clamp(32px,8vw,52px)!important}
-  .h-price{font-size:48px!important}
-  .hc{grid-template-columns:1fr 1fr!important}
+@media(max-width:900px){
+  nav{padding:12px 20px!important;flex-wrap:wrap!important;gap:8px!important}
+  .nav-logo{flex:1!important;min-width:120px!important}
+  .nav-r{gap:6px!important;flex-wrap:wrap!important;justify-content:flex-end!important}
+  .nav-cta{font-size:12px!important;padding:8px 16px!important}
+  .hero{grid-template-columns:1fr!important;min-height:auto!important;padding:50px 20px 36px!important}
   .h-right{display:none!important}
+  .h-content{padding:0!important}
+  .h-title{font-size:clamp(28px,7vw,52px)!important}
+  .h-eye{display:none!important}
+  .hc{grid-template-columns:1fr 1fr!important}
+  .h-acts{flex-direction:column!important;gap:10px!important}
+  .h-acts button,.btn-hp{width:100%!important;justify-content:center!important}
   .sec,.why-sec,.loc-sec,.proc-sec,.cta-sec,.photos-sec,.fin-sec,.calc-sec{padding:48px 20px!important}
-  .sec-h{font-size:clamp(26px,6vw,38px)!important}
+  .sec-h{font-size:clamp(22px,5vw,38px)!important}
+  footer{padding:28px 20px!important;flex-direction:column!important;gap:14px!important;text-align:center!important}
   .fg,.two-t,.calc-sl,.bg,.lg,.prop-g{grid-template-columns:1fr!important}
   .cg{grid-template-columns:1fr 1fr!important}
-  .cta-in{grid-template-columns:1fr!important;text-align:center}
+  .cta-in{grid-template-columns:1fr!important;text-align:center!important}
+  .cta-ci{align-items:center!important}
+  .cta-r{align-items:center!important;width:100%!important}
+  .cta-r .btn-cw{width:100%!important;text-align:center!important}
   .crg{grid-template-columns:1fr 1fr!important}
   .tc-grid{grid-template-columns:1fr 1fr!important}
   .ps{grid-template-columns:1fr 1fr!important;gap:16px!important}
@@ -3013,17 +3052,38 @@ function downloadPage(){
   .pg{grid-template-columns:1fr 1fr!important}
   .pi.large{grid-column:span 1!important;aspect-ratio:4/3!important}
   .mgmt-hero-right{grid-template-columns:1fr 1fr!important}
-  .mgmt-hero-grid,.mgmt-testimonial,.mgmt-cta-strip{grid-template-columns:1fr!important}
+  .mgmt-hero-grid,.mgmt-testimonial,.mgmt-cta-strip,.mgmt-services{grid-template-columns:1fr!important}
   .mgmt-sec{padding:48px 20px!important}
-  .roi-b{flex-direction:column!important;gap:12px!important}
+  .roi-b{flex-direction:column!important;gap:16px!important}
   .roi-big{font-size:52px!important;text-align:left!important}
-  .ft-grid{grid-template-columns:1fr!important}
-  .cta-sec .btn-cw,.cta-sec .btn-co{width:100%!important;text-align:center!important}
+  .roi-bl{text-align:left!important}
+  .ft-grid,.two-t{grid-template-columns:1fr!important}
+  .why-grid{grid-template-columns:1fr!important}
+  .lps{gap:12px!important}
+  .calc-w{flex-direction:column!important;gap:20px!important}
+  .calc-sl,.crg{width:100%!important}
   .h-btns{flex-direction:column!important;gap:10px!important}
   .h-btns button{width:100%!important;justify-content:center!important}
-  .why-grid{grid-template-columns:1fr!important}
-  .lp{flex-direction:column!important;gap:8px!important}
-  footer{padding:28px 20px!important;flex-direction:column!important;gap:12px!important;text-align:center!important}
+}
+@media(max-width:480px){
+  nav{padding:10px 16px!important}
+  .hc{grid-template-columns:1fr 1fr!important}
+  .cg{grid-template-columns:1fr!important}
+  .crg{grid-template-columns:1fr 1fr!important}
+  .ps{grid-template-columns:1fr!important}
+  .pg{grid-template-columns:1fr!important}
+  .mgmt-hero-right{grid-template-columns:1fr 1fr!important}
+  .mgmt-stat-num{font-size:36px!important}
+  .h-price{font-size:38px!important}
+  .h-title{font-size:clamp(24px,8vw,38px)!important}
+  .sec-h{font-size:clamp(20px,6vw,30px)!important}
+  .sec,.why-sec,.loc-sec,.proc-sec,.cta-sec,.photos-sec,.fin-sec,.calc-sec{padding:36px 16px!important}
+  .roi-big{font-size:42px!important}
+  .dep-box{border-radius:16px!important}
+  .dep-header,.dep-body{padding:18px 16px!important}
+  .bank-fields{grid-template-columns:1fr!important}
+  .dep-stepper{padding:0 16px!important}
+  footer{padding:24px 16px!important}
 }
 </style></head><body>${html}<script>
 const WHATSAPP_NUM='447923634812';
@@ -3345,7 +3405,7 @@ function exportPDF(){
   </div>
 
   <div class="pdf-footer">
-    <div><strong>Mags Property Limited</strong> · Company No. 13710638<br>56a Penny Lane, Liverpool, L18 1DG · hello@magsproperty.co.uk · 0151 452 0151</div>
+    <div><strong>Mags Property Limited</strong> · Company No. 13710638<br>56a Penny Lane, Liverpool, L18 1DG · admin@magsproperty.co.uk · 0151 452 0151</div>
     <div class="pdf-footer-right">magsproperty.co.uk<br>Powered by Street.co.uk</div>
   </div>
 
