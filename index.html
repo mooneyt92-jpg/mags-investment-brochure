@@ -1067,13 +1067,13 @@ footer{background:var(--dark);padding:34px 80px;display:flex;justify-content:spa
 <section class="sec loc-sec">
   <div class="loc-in">
     <div class="sec-lbl"><div class="sec-lbl-line"></div><div class="sec-lbl-t">Location</div></div>
-    <h2 class="sec-h">Liverpool L7 — <em>prime</em> rental territory</h2>
-    <p class="sec-d">Positioned between the city centre and the Knowledge Quarter, L7 is one of Liverpool's most consistent rental markets.</p>
+    <h2 class="sec-h" id="loc-heading">Liverpool — <em>prime</em> rental territory</h2>
+    <p class="sec-d" id="loc-desc">A strong Liverpool rental market with consistent demand and excellent city connectivity.</p>
     <div class="lg">
       <div>
         <div class="tc-grid">
-          <div class="tc"><div class="tc-ico">🚗</div><div class="tc-ti">12 min</div><div class="tc-la">City Centre</div><div class="tc-de">1.6 miles</div></div>
-          <div class="tc"><div class="tc-ico">🚌</div><div class="tc-ti">23 min</div><div class="tc-la">City Centre bus</div><div class="tc-de">Every 8 minutes</div></div>
+          <div class="tc"><div class="tc-ico">🚗</div><div class="tc-ti" id="loc-drive-time">—</div><div class="tc-la">City Centre</div><div class="tc-de" id="loc-drive-dist">—</div></div>
+          <div class="tc"><div class="tc-ico">🚌</div><div class="tc-ti" id="loc-bus-time">—</div><div class="tc-la">City Centre bus</div><div class="tc-de" id="loc-bus-freq">—</div></div>
         </div>
         <div style="background:#d4e0c8;border-radius:20px;height:200px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;margin-top:4px">
           <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 28px,rgba(255,255,255,.18) 28px,rgba(255,255,255,.18) 29px),repeating-linear-gradient(90deg,transparent,transparent 28px,rgba(255,255,255,.18) 28px,rgba(255,255,255,.18) 29px)"></div>
@@ -1083,11 +1083,11 @@ footer{background:var(--dark);padding:34px 80px;display:flex;justify-content:spa
           </div>
         </div>
       </div>
-      <div class="lps">
-        <div class="lp"><div class="lp-ico"><svg viewBox="0 0 20 20"><path d="M10 2C6.13 2 3 5.13 3 9c0 5.25 7 11 7 11s7-5.75 7-11c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div><div><div class="lp-t">Knowledge Quarter</div><div class="lp-d">Close to University of Liverpool and LJMU campuses. Consistent demand from thousands of students and academic staff.</div></div></div>
-        <div class="lp"><div class="lp-ico"><svg viewBox="0 0 20 20"><path d="M10 2L2 7v11h6v-5h4v5h6V7L10 2z"/></svg></div><div><div class="lp-t">Royal Liverpool Hospital</div><div class="lp-d">Adjacent to a major NHS hospital and medical district — strong demand from healthcare workers seeking well-located accommodation.</div></div></div>
-        <div class="lp"><div class="lp-ico"><svg viewBox="0 0 20 20"><path d="M10 2L3 7h2v8H3v2h14v-2h-2V7h2L10 2z"/></svg></div><div><div class="lp-t">City Centre connectivity</div><div class="lp-d">12 minutes by car, 23 by bus. Young professionals choose L7 for its value, character, and direct city access.</div></div></div>
-        <div class="lp"><div class="lp-ico"><svg viewBox="0 0 20 20"><path d="M3 3h14v10H3zM3 17h14M7 13v4M13 13v4"/></svg></div><div><div class="lp-t">City-wide regeneration</div><div class="lp-d">Liverpool consistently outperforms UK regional cities for rental yield growth. Ongoing investment drives long-term capital appreciation.</div></div></div>
+      <div class="lps" id="loc-points">
+        <div class="lp"><div class="lp-ico"><svg viewBox="0 0 20 20"><path d="M10 2C6.13 2 3 5.13 3 9c0 5.25 7 11 7 11s7-5.75 7-11c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div><div><div class="lp-t" id="lp-t1">Local amenities</div><div class="lp-d" id="lp-d1">Strong local infrastructure with shops, schools and transport links within easy reach.</div></div></div>
+        <div class="lp"><div class="lp-ico"><svg viewBox="0 0 20 20"><path d="M10 2L2 7v11h6v-5h4v5h6V7L10 2z"/></svg></div><div><div class="lp-t" id="lp-t2">Rental demand</div><div class="lp-d" id="lp-d2">Consistently high tenant demand across the area with low void periods and strong rental yields.</div></div></div>
+        <div class="lp"><div class="lp-ico"><svg viewBox="0 0 20 20"><path d="M10 2L3 7h2v8H3v2h14v-2h-2V7h2L10 2z"/></svg></div><div><div class="lp-t" id="lp-t3">City Centre connectivity</div><div class="lp-d" id="lp-d3">Excellent transport links to Liverpool city centre, making this an attractive location for working professionals.</div></div></div>
+        <div class="lp"><div class="lp-ico"><svg viewBox="0 0 20 20"><path d="M3 3h14v10H3zM3 17h14M7 13v4M13 13v4"/></svg></div><div><div class="lp-t" id="lp-t4">Capital growth potential</div><div class="lp-d" id="lp-d4">Liverpool consistently outperforms UK regional cities for rental yield growth. Ongoing investment drives long-term capital appreciation.</div></div></div>
       </div>
     </div>
   </div>
@@ -1234,8 +1234,8 @@ footer{background:var(--dark);padding:34px 80px;display:flex;justify-content:spa
       </div>
     </div>
     <div class="cta-r">
-      <button class="btn-cw" onclick="openWhatsApp('investor')">Register Interest on WhatsApp</button>
-      <button class="btn-co" onclick="document.getElementById('fin-sec').scrollIntoView({behavior:'smooth'})">Review the Financials</button>
+      <button class="btn-cw" onclick="openDepositModal()">Secure This Deal →</button>
+      <button class="btn-co" onclick="openWhatsApp('investor')">Register Interest on WhatsApp</button>
       <div style="font-size:12px;color:rgba(255,255,255,.3);text-align:center;max-width:220px">Finders fees apply. ICO & PRS registered. Not financial advice.</div>
     </div>
   </div>
@@ -2058,6 +2058,7 @@ function buildPage(){
   document.getElementById('hc-type').textContent=d.propertyType||'—';
   document.getElementById('h-fbadge').textContent=(d.features||[]).some(f=>/tenant/i.test(f.name))?'Tenant in situ':'Investment Deal';
   document.getElementById('map-label').textContent=addr.split(',')[0]||addr;
+  buildLocationSection(addr);
   document.getElementById('modal-deal-label').textContent=addr+' · '+fmt(price);
   document.getElementById('cta-h').innerHTML='Ready to secure<br>this deal?';
 
@@ -2635,7 +2636,63 @@ function resetToUpload(){
 }
 
 // ── DOWNLOAD ──
-// ── TOAST ──
+// ── LOCATION SECTION — dynamic by postcode ──
+function buildLocationSection(addr){
+  // Extract postcode area from address
+  const postcodeM = addr.match(/\b(L\d{1,2}|CH\d{1,2}|WA\d{1,2}|WN\d{1,2}|PR\d{1,2}|M\d{1,2})\b/i);
+  const pc = postcodeM ? postcodeM[1].toUpperCase() : '';
+  const areaName = addr.split(',').slice(-2).join(',').trim();
+
+  // Location data by postcode
+  const locationData = {
+    'L1':  { h:'Liverpool City Centre', desc:'The heart of Liverpool — unmatched footfall, student accommodation demand and professional rental market.', t1:'Universities nearby', d1:'University of Liverpool and LJMU within walking distance. Consistent student and academic demand year-round.', t2:'Nightlife & retail', d2:'Bold Street, Liverpool ONE and the city\'s hospitality quarter all within minutes. Premium rental rates.', t3:'Transport hub', d3:'Lime Street station, bus networks and Merseyrail all immediately accessible.', t4:'Capital growth', d4:'City centre Liverpool consistently leads regional cities for rental yield and capital appreciation.', drive:'5 min', dist:'0.5 miles', bus:'7 min', freq:'Every 5 mins' },
+    'L2':  { h:'Liverpool City Centre', desc:'Prime city centre location with exceptional connectivity and strong rental demand from professionals.', t1:'Business district', d1:'Close to Liverpool\'s commercial and legal quarter — strong demand from professionals and city workers.', t2:'Waterfront', d2:'Steps from the iconic Liverpool waterfront, Albert Dock and the cultural quarter.', t3:'Transport links', d3:'Excellent Merseyrail and bus connections across the city and beyond.', t4:'Capital growth', d4:'City centre Liverpool consistently leads regional cities for rental yield and capital appreciation.', drive:'5 min', dist:'0.8 miles', bus:'8 min', freq:'Every 5 mins' },
+    'L3':  { h:'Liverpool L3 — Everton & Vauxhall', desc:'A rapidly regenerating area north of the city centre with growing investment and strong rental demand.', t1:'Regeneration zone', d1:'Major investment in the area driving property values and attracting new tenants to the postcode.', t2:'City proximity', d2:'Moments from Liverpool city centre with easy access to jobs, universities and amenities.', t3:'Transport links', d3:'Multiple bus routes and easy access to Lime Street and Moorfields stations.', t4:'Capital growth', d4:'One of Liverpool\'s fastest-improving postcodes with strong long-term growth potential.', drive:'8 min', dist:'1.2 miles', bus:'10 min', freq:'Every 8 mins' },
+    'L4':  { h:'Liverpool L4 — Walton & Kirkdale', desc:'A well-established residential area with strong rental demand and excellent transport links.', t1:'Everton FC', d1:'Home to Everton FC\'s new stadium development at Bramley-Moore Dock — boosting local investment.', t2:'Residential demand', d2:'Strong family and professional rental market with consistent low void periods throughout the year.', t3:'Transport links', d3:'Good bus links to city centre and easy access to the M57 and M58 motorways.', t4:'Affordable entry', d4:'One of Liverpool\'s best value postcodes for investors seeking strong yields on lower entry prices.', drive:'15 min', dist:'2.8 miles', bus:'20 min', freq:'Every 10 mins' },
+    'L5':  { h:'Liverpool L5 — Everton', desc:'An emerging investment hotspot benefiting from major regeneration and infrastructure spending.', t1:'Regeneration', d1:'Significant council and private investment transforming the area and driving long-term capital growth.', t2:'Hospital proximity', d2:'Close to Royal Liverpool University Hospital — consistent demand from NHS and healthcare workers.', t3:'City access', d3:'Easy access to city centre employment, universities and Liverpool\'s growing knowledge economy.', t4:'High yields', d4:'Strong gross yields available for investors entering ahead of major infrastructure improvements.', drive:'12 min', dist:'1.8 miles', bus:'15 min', freq:'Every 10 mins' },
+    'L6':  { h:'Liverpool L6 — Anfield & Fairfield', desc:'A diverse residential area with strong rental demand driven by hospital workers, students and young professionals.', t1:'Hospital district', d1:'Adjacent to Royal Liverpool and Alder Hey Hospital — strong, consistent demand from healthcare workers.', t2:'Student market', d2:'Close to Liverpool John Moores and University of Liverpool campuses. High student rental demand.', t3:'Transport links', d3:'Good bus links to city centre. Easy access to motorway network via Queens Drive.', t4:'Regeneration upside', d4:'Anfield and surrounding areas continue to benefit from ongoing investment and improving infrastructure.', drive:'15 min', dist:'2.3 miles', bus:'20 min', freq:'Every 8 mins' },
+    'L7':  { h:'Liverpool L7 — Kensington & Edge Hill', desc:'Positioned between the city centre and the Knowledge Quarter — one of Liverpool\'s most consistent rental markets.', t1:'Knowledge Quarter', d1:'Close to University of Liverpool and LJMU campuses. Consistent demand from students and academic staff.', t2:'Royal Liverpool Hospital', d2:'Adjacent to a major NHS hospital and medical district — strong demand from healthcare workers.', t3:'City Centre connectivity', d3:'12 minutes by car, 23 by bus. Young professionals choose L7 for its value, character, and direct city access.', t4:'City-wide regeneration', d4:'Liverpool consistently outperforms UK regional cities for rental yield growth. Ongoing investment drives appreciation.', drive:'12 min', dist:'1.6 miles', bus:'23 min', freq:'Every 8 mins' },
+    'L8':  { h:'Liverpool L8 — Toxteth & Dingle', desc:'A vibrant, culturally rich area with strong rental demand and excellent city centre access.', t1:'Cultural quarter', d1:'Home to Liverpool\'s diverse cultural scene, independent businesses and creative community.', t2:'Hospital proximity', d2:'Close to Royal Liverpool Hospital and medical quarter. Strong healthcare worker rental demand.', t3:'City connectivity', d3:'Excellent bus links to city centre. Baltic Triangle and waterfront easily accessible.', t4:'Strong yields', d4:'Competitive property prices with strong gross yields available for buy-to-let investors.', drive:'10 min', dist:'1.4 miles', bus:'15 min', freq:'Every 10 mins' },
+    'L9':  { h:'Liverpool L9 — Fazakerley & Orrell Park', desc:'A well-established residential area with strong family rental demand and good transport connections.', t1:'Aintree Hospital', d1:'Close to Aintree University Hospital — strong demand from NHS workers seeking nearby accommodation.', t2:'Family market', d2:'Popular family neighbourhood with good schools, parks and community facilities nearby.', t3:'Motorway access', d3:'Excellent access to M57 and M58 motorways. Easy commute to Liverpool and surrounding areas.', t4:'Steady demand', d4:'Consistent rental demand with low void periods and a stable, established tenant market.', drive:'25 min', dist:'5.1 miles', bus:'30 min', freq:'Every 12 mins' },
+    'L10': { h:'Liverpool L10 — Aintree & Fazakerley', desc:'A popular residential area close to major hospitals and excellent road and rail links.', t1:'Aintree Hospital', d1:'Adjacent to Aintree University Hospital — consistent demand from healthcare professionals.', t2:'Aintree Racecourse', d2:'Home to the Grand National — a nationally recognised location boosting local profile and interest.', t3:'Transport links', d3:'Aintree Merseyrail station provides fast links to Liverpool city centre.', t4:'Family demand', d4:'Strong family and professional rental market with good schools and amenities nearby.', drive:'22 min', dist:'5.8 miles', bus:'28 min', freq:'Every 15 mins' },
+    'L11': { h:'Liverpool L11 — Norris Green & Croxteth', desc:'An established residential area with strong rental demand and excellent road links across Merseyside.', t1:'Residential demand', d1:'Popular family and professional residential area with consistent tenant demand year-round.', t2:'Road connections', d2:'Excellent access to the Queens Drive ring road, M57 and wider motorway network.', t3:'Local amenities', d3:'Good range of local shops, schools and leisure facilities serving the community.', t4:'Affordable yields', d4:'Strong rental yields available on competitively priced properties across the postcode.', drive:'20 min', dist:'4.2 miles', bus:'25 min', freq:'Every 12 mins' },
+    'L12': { h:'Liverpool L12 — West Derby', desc:'One of Liverpool\'s most desirable suburban postcodes with strong demand from families and professionals.', t1:'West Derby village', d1:'A sought-after suburban location with excellent schools, green spaces and community feel.', t2:'Professional market', d2:'Popular with professionals and families seeking quality accommodation outside the city centre.', t3:'Transport links', d3:'Good bus routes to city centre and easy access to the motorway network via M62.', t4:'Capital growth', d4:'One of Liverpool\'s most stable postcodes for long-term capital appreciation and rental demand.', drive:'18 min', dist:'3.8 miles', bus:'25 min', freq:'Every 12 mins' },
+    'L13': { h:'Liverpool L13 — Old Swan & Broadgreen', desc:'A central Liverpool location with excellent transport links and strong rental demand.', t1:'Derby Lane offices', d1:'Home to Mags Property\'s investment office — a postcode we know and trust inside out.', t2:'Hospital proximity', d2:'Close to Broadgreen Hospital and the wider medical cluster. Strong healthcare worker demand.', t3:'Transport links', d3:'Excellent bus connectivity to city centre, Edge Hill and surrounding areas.', t4:'Strong yields', d4:'Competitive entry prices with strong gross yields for buy-to-let and HMO investors.', drive:'15 min', dist:'2.9 miles', bus:'20 min', freq:'Every 10 mins' },
+    'L14': { h:'Liverpool L14 — Dovecot & Knotty Ash', desc:'A well-connected east Liverpool area with strong family rental demand and good road links.', t1:'Residential demand', d1:'Established residential area popular with families and working professionals.', t2:'Road connections', d2:'Excellent access to Queens Drive, M62 and East Lancashire Road for commuters.', t3:'Local amenities', d3:'Good schools, shops and leisure facilities within easy reach of the postcode.', t4:'Affordable entry', d4:'Competitive property prices offering strong rental yields for investors.', drive:'18 min', dist:'3.5 miles', bus:'25 min', freq:'Every 12 mins' },
+    'L15': { h:'Liverpool L15 — Wavertree', desc:'One of Liverpool\'s most popular postcodes — a vibrant, well-connected area with strong rental demand.', t1:'Wavertree village', d1:'A sought-after residential village within the city — independent shops, cafes and strong community.', t2:'Student & professional', d2:'Close to the University of Liverpool — high demand from postgraduate students and young professionals.', t3:'Transport links', d3:'Excellent bus routes to city centre. Easy access to Edge Lane and motorway network.', t4:'Consistent yields', d4:'One of Liverpool\'s most reliable postcodes for rental income with low void periods year-round.', drive:'15 min', dist:'2.5 miles', bus:'20 min', freq:'Every 8 mins' },
+    'L16': { h:'Liverpool L16 — Childwall', desc:'A premium south Liverpool suburb with excellent schools and strong professional rental demand.', t1:'Childwall schools', d1:'One of Liverpool\'s most sought-after school catchment areas — strong family demand year-round.', t2:'Professional market', d2:'Popular with professional tenants seeking quality accommodation in a desirable suburban setting.', t3:'Transport links', d3:'Good bus routes to city centre and easy access to the M62 motorway.', t4:'Premium values', d4:'One of Liverpool\'s highest value postcodes with strong long-term capital appreciation history.', drive:'20 min', dist:'4.1 miles', bus:'28 min', freq:'Every 12 mins' },
+    'L17': { h:'Liverpool L17 — Aigburth', desc:'A premium south Liverpool postcode with excellent amenities, strong demand and outstanding quality of life.', t1:'Sefton Park', d1:'Adjacent to Sefton Park — one of Liverpool\'s most beautiful green spaces and a major tenant draw.', t2:'Allerton Road', d2:'Close to Allerton Road\'s excellent range of independent restaurants, bars and shops.', t3:'Transport links', d3:'Good bus routes to city centre. Close to South Parkway station for regional rail links.', t4:'Premium yields', d4:'High demand and quality tenant profile. One of Liverpool\'s most consistently strong rental markets.', drive:'18 min', dist:'3.2 miles', bus:'22 min', freq:'Every 10 mins' },
+    'L18': { h:'Liverpool L18 — Mossley Hill & Penny Lane', desc:'Home to Mags Property — one of Liverpool\'s most desirable and consistently performing postcodes.', t1:'Penny Lane', d1:'An iconic Liverpool location with global recognition — strong demand from professionals and executives.', t2:'Premium schools', d2:'Outstanding school catchment area with some of Liverpool\'s highest-rated primary and secondary schools.', t3:'Transport links', d3:'Good bus routes to city centre. Close to Mossley Hill and West Allerton stations.', t4:'Capital growth leader', d4:'L18 consistently ranks among Liverpool\'s top postcodes for capital growth and rental value.', drive:'20 min', dist:'4.2 miles', bus:'25 min', freq:'Every 12 mins' },
+    'L19': { h:'Liverpool L19 — Garston & Allerton', desc:'A well-connected south Liverpool area with strong residential demand and excellent transport links.', t1:'Airport proximity', d1:'Close to Liverpool John Lennon Airport — attractive to aviation professionals and frequent travellers.', t2:'Retail & amenities', d2:'Nearby South Liverpool Retail Park and excellent range of local amenities.', t3:'Transport links', d3:'Good bus connections and easy access to the motorway network and airport.', t4:'Steady demand', d4:'Consistent rental demand from families and professionals across this established south Liverpool postcode.', drive:'22 min', dist:'5.5 miles', bus:'28 min', freq:'Every 12 mins' },
+    'L20': { h:'Liverpool L20 — Bootle & Kirkdale', desc:'A regenerating north Liverpool area with strong rental yields and improving infrastructure.', t1:'Port of Liverpool', d1:'Close to the Port of Liverpool — strong demand from logistics, maritime and industrial workers.', t2:'Regeneration', d2:'Major investment in north Liverpool driving property values and tenant interest across the postcode.', t3:'Transport links', d3:'Good Merseyrail links at Bootle stations. Easy motorway access via M57 and M58.', t4:'High yields', d4:'Some of Merseyside\'s strongest gross yields available on competitively priced north Liverpool stock.', drive:'20 min', dist:'4.5 miles', bus:'25 min', freq:'Every 10 mins' },
+  };
+
+  // Get location data for this postcode, fall back to generic Liverpool
+  const ld = locationData[pc] || {
+    h: areaName + ' — prime rental territory',
+    desc: 'A strong Liverpool rental market with consistent demand, excellent connectivity and solid long-term investment fundamentals.',
+    t1:'Local amenities', d1:'Strong local infrastructure with shops, schools and transport links within easy reach.',
+    t2:'Rental demand', d2:'Consistently high tenant demand with low void periods and strong rental yields.',
+    t3:'City Centre connectivity', d3:'Good transport links to Liverpool city centre, making this attractive to working professionals and families.',
+    t4:'Capital growth', d4:'Liverpool consistently outperforms UK regional cities for rental yield growth and long-term capital appreciation.',
+    drive:'—', dist:'—', bus:'—', freq:'—'
+  };
+
+  // Update the DOM
+  const setT = (id, val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
+  const setH = (id, val) => { const el=document.getElementById(id); if(el) el.innerHTML=val; };
+
+  setH('loc-heading', ld.h.replace(/—\s*(.+)$/, '— <em>$1</em>'));
+  setT('loc-desc', ld.desc);
+  setT('loc-drive-time', ld.drive);
+  setT('loc-drive-dist', ld.dist);
+  setT('loc-bus-time', ld.bus);
+  setT('loc-bus-freq', ld.freq);
+  setT('lp-t1', ld.t1); setT('lp-d1', ld.d1);
+  setT('lp-t2', ld.t2); setT('lp-d2', ld.d2);
+  setT('lp-t3', ld.t3); setT('lp-d3', ld.d3);
+  setT('lp-t4', ld.t4); setT('lp-d4', ld.d4);
+}
 function showToast(msg, type='success', duration=3000){
   const t=document.getElementById('toast');
   t.textContent=msg;
