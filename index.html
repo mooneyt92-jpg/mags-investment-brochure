@@ -557,6 +557,16 @@ footer{background:var(--dark);padding:34px 80px;display:flex;justify-content:spa
 /* Panel visibility */
 .dep-panel{display:none}
 .dep-panel.active{display:block}
+/* FAQ */
+.faq-item{background:white;border-radius:14px;overflow:hidden;border:1px solid rgba(15,30,30,.08);transition:box-shadow .2s}
+.faq-item:hover{box-shadow:0 4px 20px rgba(15,30,30,.08)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;cursor:pointer;gap:16px}
+.faq-qt{font-size:15px;font-weight:600;color:var(--dark);line-height:1.4;flex:1}
+.faq-icon{width:28px;height:28px;border-radius:50%;background:var(--cream2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;color:var(--dark);font-size:18px;font-weight:300}
+.faq-item.open .faq-icon{background:var(--orange);color:white;transform:rotate(45deg)}
+.faq-a{display:none;padding:0 24px 20px;font-size:14px;color:var(--muted);line-height:1.8;border-top:1px solid rgba(15,30,30,.06)}
+.faq-item.open .faq-a{display:block}
+.faq-a strong{color:var(--dark)}
 .rev-toggle{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,.6);cursor:pointer;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 14px;transition:all .2s}
 .rev-toggle:hover{border-color:rgba(232,114,42,.3);color:white}
 .rev-toggle input{accent-color:var(--orange);width:16px;height:16px;flex-shrink:0;cursor:pointer}
@@ -1063,18 +1073,21 @@ footer{background:var(--dark);padding:34px 80px;display:flex;justify-content:spa
           </div>
         </div>
         <!-- Broker hint -->
-        <div style="margin-top:16px;background:rgba(232,114,42,.08);border:1px solid rgba(232,114,42,.2);border-radius:12px;padding:12px 14px;font-size:12px;color:rgba(255,255,255,.55);line-height:1.6">
-          💬 <strong style="color:rgba(255,255,255,.8)">Need mortgage advice?</strong> We work with an independent broker who can find the right deal for your circumstances — no obligation. Call us on <strong style="color:var(--orange)">0151 452 0151</strong> to find out more.
+        <div style="margin-top:16px;background:#fff8f4;border:1px solid rgba(232,114,42,.25);border-radius:12px;padding:12px 14px;font-size:12px;color:#5a4a3a;line-height:1.6">
+          💬 <strong style="color:#0f1e1e">Need mortgage advice?</strong> We work with an independent broker who can find the right deal for your circumstances — no obligation. Call us on <strong style="color:#E8722A">0151 452 0151</strong> to find out more.
         </div>
       </div>
-      <div class="crg" style="grid-template-columns:1fr 1fr">
-        <div class="cr"><div class="cr-l">Gross yield</div><div class="cr-v o" id="cr-gross">—</div><div class="cr-s">On purchase price</div></div>
-        <div class="cr"><div class="cr-l">Annual net profit</div><div class="cr-v" id="cr-np">—</div><div class="cr-s" id="cr-np-sub">After all costs</div></div>
-        <div class="cr"><div class="cr-l">Cash ROI</div><div class="cr-v o" id="cr-roi">—</div><div class="cr-s">Return on cash in</div></div>
-        <div class="cr"><div class="cr-l">Cash deployed</div><div class="cr-v" id="cr-cash" style="font-size:18px">—</div><div class="cr-s">Total investment</div></div>
+      <!-- Simple single result: Annual Net Profit -->
+      <div style="background:white;border-radius:16px;padding:28px;text-align:center;border:1px solid rgba(15,30,30,.08);margin-top:8px">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:10px">Annual net profit from rent</div>
+        <div class="cr-v g" id="cr-np" style="font-size:48px;font-family:var(--fd);color:#1D9E75;margin-bottom:6px">—</div>
+        <div style="font-size:13px;color:var(--muted)" id="cr-np-sub">After all expenses</div>
       </div>
       <!-- Hidden elements kept for JS compatibility -->
+      <span id="cr-gross" style="display:none">—</span>
       <span id="cr-ni" style="display:none">—</span>
+      <span id="cr-roi" style="display:none">—</span>
+      <span id="cr-cash" style="display:none">—</span>
       <div class="calc-note" style="margin-top:12px"><strong>Note:</strong> Illustrative estimates only. Not financial advice. Actual returns may vary.</div>
     </div>
   </div>
@@ -1158,6 +1171,16 @@ footer{background:var(--dark);padding:34px 80px;display:flex;justify-content:spa
         <div class="lp"><div class="lp-ico"><svg viewBox="0 0 20 20"><path d="M3 3h14v10H3zM3 17h14M7 13v4M13 13v4"/></svg></div><div><div class="lp-t" id="lp-t4">Capital growth potential</div><div class="lp-d" id="lp-d4">Liverpool consistently outperforms UK regional cities for rental yield growth. Ongoing investment drives long-term capital appreciation.</div></div></div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec" style="background:#f7f3ee">
+  <div class="sec-in">
+    <div class="sec-lbl"><div class="sec-lbl-line"></div><div class="sec-lbl-t">FAQ</div></div>
+    <h2 class="sec-h">Common <em>questions</em></h2>
+    <p class="sec-d">Everything you need to know before reserving your investment.</p>
+    <div id="faq-list" style="display:flex;flex-direction:column;gap:12px;margin-top:32px;max-width:780px"></div>
   </div>
 </section>
 
@@ -1301,7 +1324,7 @@ footer{background:var(--dark);padding:34px 80px;display:flex;justify-content:spa
       <div class="cta-ci">
         <div class="cta-c"><div class="cta-cico"><svg viewBox="0 0 14 14"><path d="M12.5 9.5l-1.8-1.8a.9.9 0 00-1.27 0l-.54.54A8.1 8.1 0 015.76 4.1l.54-.54a.9.9 0 000-1.27L4.5 0.5A.9.9 0 003.23.5L2 1.73A.9.9 0 002 2.63c1 1 4.16 4.16 7.37 7.37a.9.9 0 00.9 0L11.5 8.77a.9.9 0 001 .73z"/></svg></div><div class="cta-ct"><strong>0151 452 0151</strong>Call us directly</div></div>
         <div class="cta-c"><div class="cta-cico"><svg viewBox="0 0 14 14"><path d="M13 3H1L7 8.5 13 3zM1 4v7h12V4L7 9.5 1 4z"/></svg></div><div class="cta-ct"><strong><a href="mailto:admin@magsproperty.co.uk" style="color:white;text-decoration:none">admin@magsproperty.co.uk</a></strong>Email us</div></div>
-        <div class="cta-c"><div class="cta-cico"><svg viewBox="0 0 14 14"><path d="M7 1C4.24 1 2 3.24 2 6c0 3.94 5 7 5 7s5-3.06 5-7c0-2.76-2.24-5-5-5zm0 6.5A1.5 1.5 0 115.5 6 1.5 1.5 0 017 7.5z"/></svg></div><div class="cta-ct"><strong>43 Derby Lane, Liverpool L13 6QA</strong>Our office</div></div>
+        <div class="cta-c"><div class="cta-cico"><svg viewBox="0 0 14 14"><path d="M7 1C4.24 1 2 3.24 2 6c0 3.94 5 7 5 7s5-3.06 5-7c0-2.76-2.24-5-5-5zm0 6.5A1.5 1.5 0 115.5 6 1.5 1.5 0 017 7.5z"/></svg></div><div class="cta-ct"><strong>56 Penny Lane, Liverpool L18</strong>Our office</div></div>
       </div>
     </div>
     <div class="cta-r">
@@ -2171,6 +2194,7 @@ function buildPage(){
   document.getElementById('h-fbadge').textContent=(d.features||[]).some(f=>/tenant/i.test(f.name))?'Tenant in situ':'Investment Deal';
   document.getElementById('map-label').textContent=addr.split(',')[0]||addr;
   buildLocationSection(addr);
+  buildFAQ();
 
   // Apply section visibility from toggles
   const secShow = (sel, show) => { const el=document.querySelector(sel); if(el) el.style.display=show?'':'none'; };
@@ -2822,6 +2846,52 @@ function buildLocationSection(addr){
   setT('lp-t3', ld.t3); setT('lp-d3', ld.d3);
   setT('lp-t4', ld.t4); setT('lp-d4', ld.d4);
 }
+// ── FAQ ──
+const FAQS = [
+  {
+    q: 'Will I get my reservation fee back if a serious structural issue is found?',
+    a: 'Your £2,000 reservation fee is non-refundable if you choose to withdraw. However, in the exceptional circumstance that a RICS Level 2 or 3 survey identifies undisclosed <strong>Category 3 Major Structural Defects</strong> — such as active subsidence or fundamental roof failure — a refund will be considered, subject to the full survey report being submitted to Mags Property within 3 working days of receipt. We conduct thorough due diligence on every property we bring to market, and issues of this nature are extremely rare.'
+  },
+  {
+    q: 'Can I have a tenant in place from day one of completion?',
+    a: 'In most cases, yes. Where a property already has a <strong>tenant in situ</strong>, rental income begins immediately upon completion — there is no void period and no letting process required. Where a property is vacant, our lettings team can begin marketing ahead of completion and we aim to have a tenant in place as quickly as possible. Tenancy status is always confirmed clearly in the deal brochure.'
+  },
+  {
+    q: 'When is the Memorandum of Sale issued?',
+    a: 'The Memorandum of Sale is issued <strong>as soon as three conditions are met:</strong> your £2,000 reservation deposit has cleared, your signed Property Finders Agreement has been countersigned by Mags Property, and we have received your AML documentation (valid photo ID and proof of address dated within 3 months) along with your solicitor\'s details. Once all three are in place, the memo is issued promptly — typically the same working day.'
+  },
+  {
+    q: 'What if I change my mind and want to pull out after reserving?',
+    a: '<strong>The £2,000 reservation fee is strictly non-refundable</strong> in the event of buyer withdrawal. This fee compensates Mags Property for removing the property from active marketing and the legal and administrative work undertaken on your behalf. By signing the Property Finders Agreement you are confirming your commitment to proceed. We encourage all buyers to be fully confident before reserving — our team is happy to answer any questions beforehand.'
+  },
+  {
+    q: 'Do you offer support with mortgage financing?',
+    a: 'Yes. We work with an independent, whole-of-market mortgage broker who specialises in buy-to-let and investment property finance. They can assess your circumstances, source competitive rates, and guide you through the application — with no obligation. Call us on <strong>0151 452 0151</strong> or email <strong>admin@magsproperty.co.uk</strong> and we will make an introduction.'
+  },
+];
+
+function buildFAQ(){
+  const list = document.getElementById('faq-list');
+  if(!list) return;
+  list.innerHTML = FAQS.map((f, i) => `
+    <div class="faq-item" id="faq-${i}">
+      <div class="faq-q" onclick="toggleFAQ(${i})">
+        <div class="faq-qt">${f.q}</div>
+        <div class="faq-icon">+</div>
+      </div>
+      <div class="faq-a">${f.a}</div>
+    </div>
+  `).join('');
+}
+
+function toggleFAQ(i){
+  const item = document.getElementById('faq-' + i);
+  if(!item) return;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('open'));
+  if(!isOpen) item.classList.add('open');
+}
+
 // ── HIDE INTERNAL BUTTONS ON SHARED/DOWNLOADED PAGES ──
 function checkSharedMode(){
   const isNetlify = window.location.href.includes('investmentbrochure.netlify.app');
