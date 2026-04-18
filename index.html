@@ -882,6 +882,15 @@ footer{background:var(--dark);padding:34px 80px;display:flex;justify-content:spa
         <label>Notes / deal summary</label>
         <input type="text" id="rv-notes" placeholder="e.g. Tenant in situ, new boiler fitted, EPC C">
       </div>
+      <div class="rev-field full" style="grid-column:1/-1">
+        <label>Floor plan image (optional)</label>
+        <div style="margin-top:8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <button class="u-btn secondary" onclick="document.getElementById('fp-input').click()" style="font-size:12px;padding:8px 16px;white-space:nowrap">+ Upload Floor Plan</button>
+          <input type="file" id="fp-input" accept="image/jpeg,image/png,image/webp,image/gif" style="display:none">
+          <span id="fp-name" style="font-size:12px;color:rgba(255,255,255,.4)">No file selected</span>
+        </div>
+        <div id="fp-preview" style="margin-top:10px"></div>
+      </div>
 
       <div class="rev-section-label" style="grid-column:1/-1">Sections to include on the deal page</div>
       <label class="rev-toggle"><input type="checkbox" id="inc-photos" checked> Photo gallery</label>
@@ -976,6 +985,16 @@ footer{background:var(--dark);padding:34px 80px;display:flex;justify-content:spa
     <div class="sec-lbl"><div class="sec-lbl-line"></div><div class="sec-lbl-t">Photos</div></div>
     <h2 class="sec-h">Inside the <em>property</em></h2>
     <div class="pg" id="photos-grid"></div>
+  </div>
+</section>
+
+<!-- FLOORPLAN -->
+<section class="sec" id="floorplan-sec" style="display:none;background:#f7f3ee">
+  <div class="sec-in">
+    <div class="sec-lbl"><div class="sec-lbl-line"></div><div class="sec-lbl-t">Floor Plan</div></div>
+    <h2 class="sec-h">Property <em>layout</em></h2>
+    <p class="sec-d">Full floor plan showing room dimensions and layout across all floors.</p>
+    <div id="floorplan-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:24px"></div>
   </div>
 </section>
 
@@ -1079,9 +1098,9 @@ footer{background:var(--dark);padding:34px 80px;display:flex;justify-content:spa
       </div>
       <!-- Simple single result: Annual Net Profit -->
       <div style="background:white;border-radius:16px;padding:28px;text-align:center;border:1px solid rgba(15,30,30,.08);margin-top:8px">
-        <div style="font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:10px">Annual net profit from rent</div>
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:10px">Annual rent collected</div>
         <div class="cr-v g" id="cr-np" style="font-size:48px;font-family:var(--fd);color:#1D9E75;margin-bottom:6px">—</div>
-        <div style="font-size:13px;color:var(--muted)" id="cr-np-sub">After all expenses</div>
+        <div style="font-size:13px;color:var(--muted)" id="cr-np-sub">Gross rental income per year</div>
       </div>
       <!-- Hidden elements kept for JS compatibility -->
       <span id="cr-gross" style="display:none">—</span>
@@ -1641,7 +1660,8 @@ async function fetchFromURL(){
       prop.address || '',
       prop.price ? ' &middot; &pound;'+Math.round(prop.price).toLocaleString() : '',
       prop.bedrooms ? ' &middot; '+prop.bedrooms+' bed' : '',
-      urlPhotos.length ? ' &middot; '+urlPhotos.length+' photos imported' : ' &middot; Add photos manually below'
+      urlPhotos.length ? ' &middot; '+urlPhotos.length+' photos imported' : ' &middot; Add photos manually below',
+      (prop.floorplans&&prop.floorplans.length) ? ' &middot; &#x1F5FA; floorplan found' : ' &middot; No floorplan detected (upload below)'
     ].join('');
     resultEl.classList.add('show');
     document.getElementById('go-btn-url').classList.add('ready');
@@ -1684,6 +1704,7 @@ function startGenerateURL(){
     cashPaid: null,
     mortgageRate: 5,
     images: allPhotos.map(p=>({url:p.url, w:800, h:600, hosted:p.hosted||false})),
+    floorplans: (urlFetchedData.floorplans||[]),
     comparables: [],
     features: buildFeaturesFromData(urlFetchedData)
   };
@@ -1957,6 +1978,14 @@ function confirmAndBuild(){
   d.gdv = getNum('rv-gdv', null);
   d.postRent = getNum('rv-post-rent', null);
   d.notes = (document.getElementById('rv-notes')||{}).value || '';
+
+  // Merge manual floorplan with any auto-fetched ones
+  if(window._manualFloorplan){
+    if(!d.floorplans) d.floorplans = [];
+    if(!d.floorplans.includes(window._manualFloorplan)){
+      d.floorplans.unshift(window._manualFloorplan); // put manual first
+    }
+  }
   d.depositPct = _reviewIsCash ? 100 : (getNum('rv-deposit-pct',null)||25);
   d.mortgageRate = _reviewIsCash ? 0 : (getNum('rv-mrate',null)||5);
 
@@ -2301,6 +2330,21 @@ function buildPage(){
 
   // Photos
   buildPhotos(d.images||[]);
+
+  // Floorplans
+  const fpSec = document.getElementById('floorplan-sec');
+  const fpGrid = document.getElementById('floorplan-grid');
+  if(fpSec && fpGrid && d.floorplans && d.floorplans.length > 0){
+    fpSec.style.display = '';
+    fpGrid.innerHTML = d.floorplans.map(url =>
+      `<div style="border-radius:12px;overflow:hidden;background:white;border:1px solid rgba(15,30,30,.08);cursor:pointer" onclick="openLightbox('${url}')">
+        <img src="${url}" alt="Floor plan" style="width:100%;height:auto;display:block" onerror="this.closest('div').style.display='none'">
+        <div style="padding:10px 14px;font-size:12px;color:var(--muted);text-align:center">Click to enlarge</div>
+      </div>`
+    ).join('');
+  } else if(fpSec) {
+    fpSec.style.display = 'none';
+  }
 }
 
 function buildPhotos(images){
@@ -2399,8 +2443,7 @@ function calcUpdate(){
   document.getElementById('cr-gross').textContent=gross.toFixed(2)+'%';
   document.getElementById('cr-ni').textContent='£'+Math.round(netInc).toLocaleString();
   const npEl=document.getElementById('cr-np');
-  npEl.textContent='£'+Math.round(netProfit).toLocaleString();
-  npEl.className='cr-v '+(netProfit>=0?'g':'r');
+  if(npEl){ npEl.textContent='£'+Math.round(yRent).toLocaleString(); npEl.className='cr-v g'; }
   document.getElementById('cr-roi').textContent=roi.toFixed(2)+'%';
   document.getElementById('cr-cash').textContent='£'+Math.round(cash).toLocaleString();
 }
@@ -3180,7 +3223,7 @@ function calcUpdate(){
   const netProfit=netInc-mInt;const roi=netProfit/cash*100;
   document.getElementById('cr-gross').textContent=gross.toFixed(2)+'%';
   document.getElementById('cr-ni').textContent='£'+Math.round(netInc).toLocaleString();
-  const npEl=document.getElementById('cr-np');if(npEl){npEl.textContent='£'+Math.round(netProfit).toLocaleString();npEl.className='cr-v '+(netProfit>=0?'g':'r');}
+  const npEl=document.getElementById('cr-np');if(npEl){npEl.textContent='£'+Math.round(yRent).toLocaleString();npEl.className='cr-v g';}
   document.getElementById('cr-roi').textContent=roi.toFixed(2)+'%';
   document.getElementById('cr-cash').textContent='£'+Math.round(cash).toLocaleString();
 }
@@ -3518,8 +3561,22 @@ document.addEventListener('DOMContentLoaded', function(){
       });
     }
   });
+  // Floor plan upload
+  document.getElementById('fp-input').addEventListener('change', function(){
+    if(this.files[0]){
+      const file = this.files[0];
+      document.getElementById('fp-name').textContent = file.name;
+      const reader = new FileReader();
+      reader.onload = e => {
+        window._manualFloorplan = e.target.result;
+        document.getElementById('fp-preview').innerHTML =
+          `<img src="${e.target.result}" style="max-width:200px;max-height:150px;border-radius:8px;border:1px solid rgba(255,255,255,.1)">`;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
   // Escape key
-  document.addEventListener('keydown',e=>{
+  document.addEventListener('keydown', e => {
     if(e.key==='Escape'){closeModal();closeLightbox();closeDepositModal();}
   });
   // Allow pressing Enter in URL input
