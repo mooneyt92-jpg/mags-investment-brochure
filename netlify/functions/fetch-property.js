@@ -196,6 +196,31 @@ function parseStreet(html, url) {
 
   prop.photos = (fullSize.length > 0 ? fullSize : thumbs).slice(0, 12);
 
+  // Floorplan — Street uses /properties/floorplan/ path on apollo CDN
+  // Also check for common floorplan filename patterns
+  const floorplanPatterns = [
+    /https:\/\/apollo\.street\.co\.uk\/street-live\/(?:tr:[^/]*\/)?properties\/floorplan\/[^\s"'<>]+\.(?:jpg|jpeg|png|gif|webp)/gi,
+    /https:\/\/apollo\.street\.co\.uk\/street-live\/(?:tr:[^/]*\/)?properties\/[^\s"'<>]*floor[^\s"'<>]*\.(?:jpg|jpeg|png|gif)/gi,
+    /https:\/\/apollo\.street\.co\.uk\/street-live\/(?:tr:[^/]*\/)?properties\/[^\s"'<>]*plan[^\s"'<>]*\.(?:jpg|jpeg|png|gif)/gi,
+    // Also check for epc/floorplan in any CDN path
+    /"floorplan[^"]*"[^:]*:\s*"(https:\/\/[^"]+\.(?:jpg|jpeg|png|gif))"/gi,
+    /floorplan[^"']*["'](https:\/\/apollo[^"']+\.(?:jpg|jpeg|png))["']/gi,
+  ];
+
+  const floorplanSeen = new Set();
+  const floorplans = [];
+  for (const rx of floorplanPatterns) {
+    for (const m of html.matchAll(rx)) {
+      const u = m[1] || m[0];
+      const clean = u.replace(/\/tr:[^/]+\//, '/');
+      if (!floorplanSeen.has(clean)) {
+        floorplanSeen.add(clean);
+        floorplans.push(clean);
+      }
+    }
+  }
+  if (floorplans.length > 0) prop.floorplans = floorplans.slice(0, 3);
+
   return prop;
 }
 
@@ -302,6 +327,28 @@ function parseRightmove(html, url) {
     }
 
     prop.photos = [...allPhotos].slice(0, 12);
+  }
+
+  // Floorplan — Rightmove uses media.rightmove.co.uk with floorplan in the path
+  if (!prop.floorplans) {
+    const fpSeen = new Set();
+    const fps = [];
+    const fpPatterns = [
+      /https:\/\/media\.rightmove\.co\.uk\/[^\s"'<>]*floor[^\s"'<>]*\.(?:jpe?g|png|gif)/gi,
+      /https:\/\/media\.rightmove\.co\.uk\/[^\s"'<>]*plan[^\s"'<>]*\.(?:jpe?g|png|gif)/gi,
+      /"floorplan"[^:]*:\s*\{[^}]*"url"\s*:\s*"(https:\/\/[^"]+)"/gi,
+      /"floorPlanUrl"\s*:\s*"(https:\/\/[^"]+)"/gi,
+    ];
+    for (const rx of fpPatterns) {
+      for (const m of html.matchAll(rx)) {
+        const u = m[1] || m[0];
+        if (!fpSeen.has(u) && !u.includes('favicon') && !u.includes('logo')) {
+          fpSeen.add(u);
+          fps.push(u);
+        }
+      }
+    }
+    if (fps.length > 0) prop.floorplans = fps.slice(0, 3);
   }
 
   return prop;
