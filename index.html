@@ -512,6 +512,9 @@ footer{background:var(--dark);padding:34px 80px;display:flex;justify-content:spa
 /* Panel visibility */
 .dep-panel{display:none}
 .dep-panel.active{display:block}
+.rev-toggle{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,.6);cursor:pointer;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 14px;transition:all .2s}
+.rev-toggle:hover{border-color:rgba(232,114,42,.3);color:white}
+.rev-toggle input{accent-color:var(--orange);width:16px;height:16px;flex-shrink:0;cursor:pointer}
 /* URL INPUT ZONE */
 .u-zones-wrap{width:100%;max-width:920px;position:relative;z-index:1}
 .u-method-tabs{display:flex;gap:8px;margin-bottom:20px;justify-content:center;flex-wrap:wrap}
@@ -824,9 +827,22 @@ footer{background:var(--dark);padding:34px 80px;display:flex;justify-content:spa
         <label>Notes / deal summary</label>
         <input type="text" id="rv-notes" placeholder="e.g. Tenant in situ, new boiler fitted, EPC C">
       </div>
-      <button class="rev-back" onclick="resetToUpload()">← Start over</button>
-      <button class="rev-go" onclick="confirmAndBuild()">Generate Investor Page →</button>
-      <span class="rev-note">You can still edit after generating</span>
+
+      <div class="rev-section-label" style="grid-column:1/-1">Sections to include on the deal page</div>
+      <label class="rev-toggle"><input type="checkbox" id="inc-photos" checked> Photo gallery</label>
+      <label class="rev-toggle"><input type="checkbox" id="inc-financials" checked> Full financial breakdown</label>
+      <label class="rev-toggle"><input type="checkbox" id="inc-calc" checked> Scenario planner / calculator</label>
+      <label class="rev-toggle"><input type="checkbox" id="inc-comparables" checked> Market comparables</label>
+      <label class="rev-toggle"><input type="checkbox" id="inc-location" checked> Location section</label>
+      <label class="rev-toggle"><input type="checkbox" id="inc-why" checked> Why Mags section</label>
+      <label class="rev-toggle"><input type="checkbox" id="inc-process" checked> 7-step process</label>
+      <label class="rev-toggle"><input type="checkbox" id="inc-mgmt" checked> Landlord management section</label>
+
+      <div style="grid-column:1/-1;display:flex;gap:12px;margin-top:16px;align-items:center">
+        <button class="rev-back" onclick="resetToUpload()">← Start over</button>
+        <button class="rev-go" onclick="confirmAndBuild()">Generate Investor Page →</button>
+        <span class="rev-note">You can still edit after generating</span>
+      </div>
     </div>
   </div>
 </div>
@@ -848,9 +864,11 @@ footer{background:var(--dark);padding:34px 80px;display:flex;justify-content:spa
   <div class="nav-r">
     <button class="nav-new" onclick="resetToUpload()">← New Deal</button>
     <button class="nav-new" onclick="document.getElementById('mgmt-sec').scrollIntoView({behavior:'smooth'})">Landlords</button>
-    <button class="nav-dl" onclick="downloadPage()">Download HTML</button>
-    <button class="nav-dl" onclick="exportPDF()" style="background:var(--orange)">Export PDF</button>
-    <button class="nav-dl" id="copy-email-btn" onclick="copyEmailCode()" style="background:#162828;border:1px solid rgba(232,114,42,0.4)">📋 Copy Email Code</button>
+    <div id="internal-nav-btns" style="display:flex;gap:10px;align-items:center">
+      <button class="nav-dl" onclick="downloadPage()">Download HTML</button>
+      <button class="nav-dl" onclick="exportPDF()" style="background:var(--orange)">Export PDF</button>
+      <button class="nav-dl" id="copy-email-btn" onclick="copyEmailCode()" style="background:#162828;border:1px solid rgba(232,114,42,0.4)">📋 Copy Email Code</button>
+    </div>
     <button class="nav-cta" onclick="openWhatsApp('investor')">Register Interest</button>
   </div>
 </nav>
@@ -1130,7 +1148,7 @@ footer{background:var(--dark);padding:34px 80px;display:flex;justify-content:spa
       </div>
       <div class="mgmt-hero-right">
         <div class="mgmt-stat accent">
-          <div class="mgmt-stat-num">500<span>+</span></div>
+          <div class="mgmt-stat-num">250<span>+</span></div>
           <div class="mgmt-stat-label">Properties managed across Merseyside</div>
         </div>
         <div class="mgmt-stat">
@@ -1865,6 +1883,17 @@ function confirmAndBuild(){
   const finalType = (typeVal === 'Other' && customType.trim()) ? customType.trim() : typeVal;
   d.propertyType = (d.bedrooms>0?d.bedrooms+' Bed ':'')+finalType;
 
+  // Read section toggles
+  const getChk = id => { const el=document.getElementById(id); return el ? el.checked : true; };
+  d.showPhotos = getChk('inc-photos');
+  d.showFinancials = getChk('inc-financials');
+  d.showCalc = getChk('inc-calc');
+  d.showComparables = getChk('inc-comparables');
+  d.showLocation = getChk('inc-location');
+  d.showWhy = getChk('inc-why');
+  d.showProcess = getChk('inc-process');
+  d.showMgmt = getChk('inc-mgmt');
+
   // Sync calculator to buyer type — after output screen shown
   document.getElementById('review-screen').style.display='none';
   try {
@@ -2059,6 +2088,23 @@ function buildPage(){
   document.getElementById('h-fbadge').textContent=(d.features||[]).some(f=>/tenant/i.test(f.name))?'Tenant in situ':'Investment Deal';
   document.getElementById('map-label').textContent=addr.split(',')[0]||addr;
   buildLocationSection(addr);
+
+  // Apply section visibility from toggles
+  const secShow = (sel, show) => { const el=document.querySelector(sel); if(el) el.style.display=show?'':'none'; };
+  secShow('.photos-sec, #photos-sec', d.showPhotos !== false);
+  secShow('.fin-sec, #fin-sec', d.showFinancials !== false);
+  secShow('.calc-sec', d.showCalc !== false);
+  secShow('.why-sec', d.showWhy !== false);
+  secShow('.loc-sec', d.showLocation !== false);
+  secShow('.proc-sec', d.showProcess !== false);
+  secShow('#mgmt-sec', d.showMgmt !== false);
+
+  // Hide/show comparables within fin-sec
+  const compSec = document.querySelector('.prop-sec');
+  if(compSec) compSec.style.display = d.showComparables !== false ? '' : 'none';
+
+  // Show internal nav buttons only on generator
+  checkSharedMode();
   document.getElementById('modal-deal-label').textContent=addr+' · '+fmt(price);
   document.getElementById('cta-h').innerHTML='Ready to secure<br>this deal?';
 
@@ -2693,6 +2739,20 @@ function buildLocationSection(addr){
   setT('lp-t3', ld.t3); setT('lp-d3', ld.d3);
   setT('lp-t4', ld.t4); setT('lp-d4', ld.d4);
 }
+// ── HIDE INTERNAL BUTTONS ON SHARED/DOWNLOADED PAGES ──
+function checkSharedMode(){
+  const isNetlify = window.location.href.includes('investmentbrochure.netlify.app');
+  const isLocal = window.location.protocol === 'file:';
+  // Show internal buttons only when running on the generator (Netlify) or locally
+  // Hide when the deal HTML is hosted elsewhere as a standalone page
+  const btns = document.getElementById('internal-nav-btns');
+  if(!btns) return;
+  // If on our Netlify generator — always show
+  if(isNetlify || isLocal) { btns.style.display='flex'; return; }
+  // Otherwise hide (standalone hosted deal page)
+  btns.style.display='none';
+}
+
 function showToast(msg, type='success', duration=3000){
   const t=document.getElementById('toast');
   t.textContent=msg;
