@@ -2457,6 +2457,8 @@ function setCalcBuyerType(type){
   calcUpdate();
 }
 
+function openLightbox(src){const lb=document.getElementById('lightbox');const img=document.getElementById('lb-img');if(lb&&img){img.src=src;lb.classList.add('open');}}
+function closeLightbox(){const lb=document.getElementById('lightbox');if(lb)lb.classList.remove('open');}
 function calcUpdate(){
   const rent=parseInt(document.getElementById('c-rent').value)||1350;
   const rate=parseFloat(document.getElementById('c-rate').value)||5;
@@ -3272,11 +3274,76 @@ const WHATSAPP_NUM='447923634812';
 function openWhatsApp(t){const addr=document.querySelector('.h-addr')?document.querySelector('.h-addr').textContent:'your investment property';const msg=t==='investor'?'Hi Mags Property! I am interested in the investment opportunity at '+addr+'. Please can you send me more details and next steps?':'Hi Mags Property! I would like to find out more about '+addr+'.';window.open('https://wa.me/'+WHATSAPP_NUM+'?text='+encodeURIComponent(msg),'_blank')}
 function openModal(){document.getElementById('modal').classList.add('open');document.body.style.overflow='hidden'}
 function closeModal(){document.getElementById('modal').classList.remove('open');document.body.style.overflow=''}
-function openDepositModal(){document.getElementById('dep-mo').classList.add('open');document.body.style.overflow='hidden'}
-function closeDepositModal(){document.getElementById('dep-mo').classList.remove('open');document.body.style.overflow=''}
-function openLightbox(src){document.getElementById('lb-img').src=src;document.getElementById('lightbox').classList.add('open')}
-function closeLightbox(){document.getElementById('lightbox').classList.remove('open')}
-function calcUpdate(){
+function openDepositModal(){
+  const propLabel=document.getElementById('dep-prop-label');
+  const addrEl=document.querySelector('.h-addr');
+  if(propLabel) propLabel.textContent=addrEl?addrEl.textContent:'Investment Property';
+  ['dep-buyer-name','dep-buyer-email','dep-buyer-phone','dep-buyer-addr'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  const agreeCheck=document.getElementById('dep-agree-check');
+  const transferCheck=document.getElementById('dep-transfer-check');
+  if(agreeCheck)agreeCheck.checked=false;
+  if(transferCheck)transferCheck.checked=false;
+  const n1=document.getElementById('dep-next-1');if(n1)n1.disabled=true;
+  const n2=document.getElementById('dep-next-2');if(n2)n2.disabled=true;
+  const sb=document.getElementById('dep-submit-btn');if(sb)sb.disabled=true;
+  // Reset panels - show p1
+  document.querySelectorAll('.dep-panel').forEach(p=>p.classList.remove('active'));
+  const p1=document.getElementById('dep-p1');if(p1)p1.classList.add('active');
+  document.querySelectorAll('.dep-step-tab').forEach((t,i)=>{t.classList.toggle('active',i===0);t.classList.remove('done');});
+  document.getElementById('dep-modal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeDepositModal(){document.getElementById('dep-modal').classList.remove('open');document.body.style.overflow='';}
+function goDepStep(n){
+  document.querySelectorAll('.dep-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.dep-step-tab').forEach((t,i)=>{t.classList.toggle('active',i+1===n);t.classList.toggle('done',i+1<n);});
+  // Panel IDs are dep-p1, dep-p2, dep-p3
+  const panel=document.getElementById('dep-p'+n);if(panel)panel.classList.add('active');
+  const body=document.querySelector('.dep-body');if(body)body.scrollTop=0;
+  if(n===2){
+    const name=(document.getElementById('dep-buyer-name')||{}).value||'[Client]';
+    document.querySelectorAll('[id*="ag-client-name"],[id*="ag-confirm-name"]').forEach(el=>el.textContent=name);
+    const propAddr=(document.querySelector('#dep-prop-label')||{}).textContent||'';
+    const addrEl=document.getElementById('ag-prop-addr');if(addrEl)addrEl.textContent=propAddr;
+  }
+  if(n===3){
+    const nm=(document.getElementById('dep-buyer-name')||{}).value||'';
+    const email=(document.getElementById('dep-buyer-email')||{}).value||'';
+    const addr=(document.getElementById('dep-buyer-addr')||{}).value||'';
+    const parts=[nm.split(' ')[0]||'REF', addr.split(',')[0]||'PROP'];
+    const ref=parts.join('-').toUpperCase().replace(/[^A-Z0-9-]/g,'').substring(0,30);
+    const refEl=document.getElementById('dep-ref');if(refEl)refEl.textContent=ref;
+    const sb=document.getElementById('dep-submit-btn');if(sb)sb.disabled=false;
+  }
+}
+function depStep1Next(){
+  const name=(document.getElementById('dep-buyer-name')||{}).value||'';
+  const email=(document.getElementById('dep-buyer-email')||{}).value||'';
+  const phone=(document.getElementById('dep-buyer-phone')||{}).value||'';
+  if(!name.trim()||!email.trim()||!phone.trim()){alert('Please fill in your name, email and phone number to continue.');return;}
+  if(!email.includes('@')){alert('Please enter a valid email address.');return;}
+  goDepStep(2);
+}
+function depStep2Next(){
+  const agree=(document.getElementById('dep-agree-check')||{}).checked;
+  if(!agree){alert('Please confirm you have read and agree to the Property Finders Agreement to continue.');return;}
+  goDepStep(3);
+}
+function submitDeposit(){
+  const name=(document.getElementById('dep-buyer-name')||{}).value||'Buyer';
+  const email=(document.getElementById('dep-buyer-email')||{}).value||'';
+  const phone=(document.getElementById('dep-buyer-phone')||{}).value||'';
+  const addr=(document.getElementById('dep-buyer-addr')||{}).value||'';
+  const prop=(document.getElementById('dep-prop-label')||{}).textContent||'the property';
+  const ref=(document.getElementById('dep-ref')||{}).textContent||'REF';
+  const transfer=(document.getElementById('dep-transfer-check')||{}).checked;
+  if(!transfer){alert('Please confirm you have made or will make the bank transfer to continue.');return;}
+  const msg='Hi Mags Property! I have completed the reservation for '+prop+'. Name: '+name+' | Email: '+email+' | Phone: '+phone+' | Address: '+addr+' | Payment ref: '+ref+'. Please confirm receipt.';
+  const waBtn=document.getElementById('dep-whatsapp-confirm');
+  if(waBtn){waBtn.href='https://wa.me/447923634812?text='+encodeURIComponent(msg);waBtn.style.display='inline-flex';}
+  const s=document.getElementById('dep-success-msg');if(s)s.style.display='block';
+  const sb=document.getElementById('dep-submit-btn');if(sb){sb.textContent='Submitted ✓';sb.disabled=true;}
+}
   const isCash=window._calcIsCash||false;
   const rent=parseInt(document.getElementById('c-rent').value)||1350;
   const rate=parseFloat(document.getElementById('c-rate').value)||5;
@@ -3304,12 +3371,11 @@ function setCalcBuyerType(type){
   else{if(mWrap)mWrap.style.display='contents';if(btnC){btnC.style.background='transparent';btnC.style.color='rgba(255,255,255,.4)';btnC.style.borderColor='rgba(255,255,255,.15)';}if(btnM){btnM.style.background='var(--orange)';btnM.style.color='white';btnM.style.borderColor='var(--orange)';}}
   calcUpdate();
 }
-function goDepStep(n){
-  document.querySelectorAll('.dep-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.dep-step-tab').forEach((t,i)=>{t.classList.toggle('active',i+1===n);t.classList.toggle('done',i+1<n);});
-  const panel=document.getElementById('dep-panel-'+n);if(panel)panel.classList.add('active');
-}
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeLightbox();closeDepositModal();}});
+function openLightbox(src){const lb=document.getElementById('lightbox');const img=document.getElementById('lb-img');if(lb&&img){img.src=src;lb.classList.add('open');document.body.style.overflow='hidden';}}
+function closeLightbox(){const lb=document.getElementById('lightbox');if(lb){lb.classList.remove('open');document.body.style.overflow='';}}
+function closeModal(){const m=document.getElementById('modal');if(m)m.classList.remove('open');document.body.style.overflow='';}
+function toggleFAQ(i){const item=document.getElementById('faq-'+i);if(!item)return;const isOpen=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(el=>el.classList.remove('open'));if(!isOpen)item.classList.add('open');}
 <\/script></body></html>`;
   const blob=new Blob([full],{type:'text/html'})
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='mags-deal.html';a.click();
